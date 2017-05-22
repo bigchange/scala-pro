@@ -1,6 +1,7 @@
 package com.grpc
 
 import com.grpc.server.GreeterServer
+import com.model.TFIDF
 import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.concurrent.ExecutionContext
@@ -10,13 +11,12 @@ import scala.concurrent.ExecutionContext
   */
 object GrpcMainServer {
 
-
-  // val sc = new SparkContext(new SparkConf().setAppName("GrpcServer").setMaster("local"))
-
   def main(args: Array[String]): Unit = {
 
+    val sc = new SparkContext(new SparkConf().setAppName("GrpcServer").setMaster("local"))
+
     val port = 50051
-    // TFIDF.apply(sc, args(0), args(1))
+    TFIDF.apply(sc, args(0), args(1))
     val server = GreeterServer.apply(port, ExecutionContext.global)
     server.start
     server.blockUntilShutdown

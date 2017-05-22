@@ -264,8 +264,8 @@
     <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.10</artifactId>
-      <version>1.6.0-cdh5.10.0</version>
+      <artifactId>spark-core_2.11</artifactId>
+      <version>1.6.0</version>
       <exclusions>
         <exclusion>
           <groupId>org.xerial.snappy</groupId>
@@ -281,8 +281,8 @@
     <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 -->
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-mllib_2.10</artifactId>
-      <version>1.6.0-cdh5.10.0</version>
+      <artifactId>spark-mllib_2.11</artifactId>
+      <version>1.6.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.grpc/grpc-all -->
@@ -338,6 +338,13 @@
       <groupId>com.google.guava</groupId>
       <artifactId>guava</artifactId>
       <version>18.0</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.11.Final</version>
     </dependency>
 
   </dependencies>
