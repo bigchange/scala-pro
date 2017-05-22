@@ -13,8 +13,8 @@ object GrpcMainServer {
 
   def main(args: Array[String]): Unit = {
 
-    val sc = new SparkContext(new SparkConf().setAppName("GrpcServer").setMaster("local"))
-
+    val sc = new SparkContext(new SparkConf().setAppName("GrpcServer") // .setMaster("local")
+      )
     val port = 50051
     TFIDF.apply(sc, args(0), args(1))
     val server = GreeterServer.apply(port, ExecutionContext.global)

@@ -8,11 +8,9 @@ import com.grpc.client.GreeterClient
 object GrpcMainClient {
 
   def main(args: Array[String]): Unit = {
-
+    val Array(host, msg) = args
     val port = 50051
-    val host = "localhost"
     val client = GreeterClient.apply(host, port)
-
-    client.greeter("java高级工程师")
+    client.greeter(msg)
   }
 }

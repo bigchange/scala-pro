@@ -54,7 +54,7 @@
             <phase>generate-sources</phase>
             <configuration>
               <target>
-                <mkdir dir="${project.basedir}/src/main/generated-sources/protobuf" />
+                <mkdir dir="${project.basedir}/src/main/generated-sources/proto" />
               </target>
             </configuration>
           </execution>
@@ -91,10 +91,10 @@
               <arguments>
                 <argument>-v3.2.0</argument> <!-- for protoc v3.0.0, can be 261 for v2.6.1 -->
                 <argument>--throw</argument> <!-- Important: otherwise scalapbc will kill the VM -->
-                <argument>--proto_path=${project.basedir}/src/main/protobuf</argument>
+                <argument>--proto_path=${project.basedir}/src/main/proto</argument>
                 <argument>--proto_path=${project.basedir}/third_party</argument>
-                <argument>--scala_out=${project.basedir}/src/main/generated-sources/protobuf</argument>
-                <argument>${project.basedir}/src/main/protobuf/com.bgfurfeature.hello.proto</argument>
+                <argument>--scala_out=${project.basedir}/src/main/generated-sources/proto</argument>
+                <argument>${project.basedir}/src/main/proto/hello.proto</argument>
               </arguments>
             </configuration>
           </execution>
@@ -106,25 +106,6 @@
             <version>0.6.0-pre4</version>
           </dependency>
         </dependencies>
-      </plugin>
-      <plugin>
-        <groupId>net.alchim31.maven</groupId>
-        <artifactId>scala-maven-plugin</artifactId>
-        <version>3.2.0</version>
-        <executions>
-          <execution>
-            <goals>
-              <goal>compile</goal>
-              <goal>testCompile</goal>
-            </goals>
-            <configuration>
-              <args>
-                <arg>-dependencyfile</arg>
-                <arg>${project.build.directory}/.scala_dependencies</arg>
-              </args>
-            </configuration>
-          </execution>
-        </executions>
       </plugin>
 
     <!-- mvn protobuf:compile  and mvn protobuf:compile-custom generate source code -->
