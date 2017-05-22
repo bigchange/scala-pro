@@ -11,7 +11,9 @@ object GrpcMainClient {
 
     val port = 50051
     val host = "localhost"
+
     val client = GreeterClient.apply(host, port)
+
     client.greeter("iamjerryfrommaven")
   }
 }
