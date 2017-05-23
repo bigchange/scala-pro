@@ -242,7 +242,9 @@
       <version>1.2.5</version>
       <scope>test</scope>
     </dependency>
-
+    <!-- 解决netty包存在重复，导致部分类无法使用的方法：一个一个包验证，不能出现任何一个jar包依赖其他jar
+         通过 <exclusions>的方式将可能重复的包排除，重新导入指定有效版本的jar
+    -->
     <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
     <dependency>
       <groupId>org.apache.spark</groupId>
