@@ -54,7 +54,7 @@
             <phase>generate-sources</phase>
             <configuration>
               <target>
-                <mkdir dir="${project.basedir}/src/main/generated-sources/proto" />
+                <mkdir dir="${project.basedir}/src/main/generated-sources/protobuf" />
               </target>
             </configuration>
           </execution>
@@ -94,7 +94,7 @@
                 <argument>--proto_path=${project.basedir}/src/main/proto</argument>
                 <argument>--proto_path=${project.basedir}/third_party</argument>
                 <argument>--scala_out=${project.basedir}/src/main/generated-sources/proto</argument>
-                <argument>${project.basedir}/src/main/proto/hello.proto</argument>
+                <argument>${project.basedir}/src/main/proto/core_word.proto</argument>
               </arguments>
             </configuration>
           </execution>
@@ -118,7 +118,7 @@
         </protocArtifact>
         <pluginId>grpc-java</pluginId>
         <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.3.0:exe:${os.detected.classifier}</pluginArtifact>
-        <protoSourceRoot>src/main/proto</protoSourceRoot>
+        <protoSourceRoot>src/main/protobuf</protoSourceRoot>
         <outputDirectory>${basedir}/src/main/generated-sources/proto/</outputDirectory>
         <clearOutputDirectory>false</clearOutputDirectory>
       </configuration>
@@ -131,6 +131,7 @@
         </execution>
       </executions>
     </plugin>
+
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-shade-plugin</artifactId>
@@ -252,6 +253,15 @@
           <groupId>org.xerial.snappy</groupId>
           <artifactId>snappy-java</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-all</artifactId>
+        </exclusion>
+
+        <exclusion>
+          <groupId>org.objenesis</groupId>
+          <artifactId>objenesis</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <dependency>
@@ -264,6 +274,12 @@
       <groupId>org.apache.spark</groupId>
       <artifactId>spark-mllib_2.11</artifactId>
       <version>1.6.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-all</artifactId>
+        </exclusion>
+      </exclusions>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.grpc/grpc-all -->
@@ -321,7 +337,7 @@
       <version>18.0</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+    <!-- https://mvnrepository.com/artifact/io.netty/netty-codec-http -->
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-all</artifactId>
@@ -329,5 +345,4 @@
     </dependency>
 
   </dependencies>
-
 </project>
