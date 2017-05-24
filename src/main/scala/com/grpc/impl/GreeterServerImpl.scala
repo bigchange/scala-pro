@@ -1,6 +1,7 @@
 package com.grpc.impl
 
-import com.bgfurfeature.hello.rpc.hello.{GreeterGrpc, HelloReply, HelloRequest}
+import com.bgfurfeature.hello.rpc.{GreeterGrpc, HelloReply, HelloRequest}
+import com.bgfurfeature.hello.rpc.{GreeterGrpc, HelloReply}
 import com.model.TFIDF
 
 import scala.concurrent.Future

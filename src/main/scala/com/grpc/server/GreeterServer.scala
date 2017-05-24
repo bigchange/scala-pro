@@ -1,6 +1,6 @@
 package com.grpc.server
 
-import com.bgfurfeature.hello.rpc.hello.GreeterGrpc
+import com.bgfurfeature.hello.rpc.GreeterGrpc
 import com.grpc.impl.GreeterServerImpl
 import io.grpc.{Server, ServerBuilder}
 

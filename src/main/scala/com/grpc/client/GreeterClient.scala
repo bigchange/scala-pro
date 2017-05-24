@@ -2,7 +2,8 @@ package com.grpc.client
 
 import java.util.concurrent.TimeUnit
 
-import com.bgfurfeature.hello.rpc.hello.{GreeterGrpc, HelloRequest}
+import com.bgfurfeature.hello.rpc.{GreeterGrpc, HelloRequest}
+import com.bgfurfeature.hello.rpc.GreeterGrpc
 import io.grpc.ManagedChannelBuilder
 
 import scala.concurrent.ExecutionContext

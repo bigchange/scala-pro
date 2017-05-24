@@ -5,7 +5,7 @@
   <version>1.0-SNAPSHOT</version>
   <inceptionYear>2008</inceptionYear>
   <properties>
-    <scala.version>2.11.8</scala.version>
+    <scala.version>2.11.8</scala.version> <!-- must version 2.11+ -->
   </properties>
 
   <repositories>
@@ -245,10 +245,22 @@
     <!-- 解决netty包存在重复，导致部分类无法使用的方法：一个一个包验证，不能出现任何一个jar包依赖其他jar
          通过 <exclusions>的方式将可能重复的包排除，重新导入指定有效版本的jar
     -->
+    <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 -->
+    <dependency>
+      <groupId>org.apache.spark</groupId>
+      <artifactId>spark-mllib_2.11</artifactId>
+      <version>1.6.0</version>
+      <exclusions>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-all</artifactId>
+        </exclusion>
+      </exclusions>
+    </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
     <dependency>
       <groupId>org.apache.spark</groupId>
-      <artifactId>spark-core_2.11</artifactId>
+      <artifactId>spark-core_2.11</artifactId> <!--server local run need 2.11 -->
       <version>1.6.0</version>
       <exclusions>
         <exclusion>
@@ -270,18 +282,6 @@
       <groupId>org.xerial.snappy</groupId>
       <artifactId>snappy-java</artifactId>
       <version>1.0.5</version>
-    </dependency>
-    <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-mllib_2.10 -->
-    <dependency>
-      <groupId>org.apache.spark</groupId>
-      <artifactId>spark-mllib_2.11</artifactId>
-      <version>1.6.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>io.netty</groupId>
-          <artifactId>netty-all</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.grpc/grpc-all -->
@@ -415,7 +415,7 @@
     <dependency>
       <groupId>io.netty</groupId>
       <artifactId>netty-codec-http</artifactId>
-      <version>4.1.11.Final</version>
+      <version>4.1.8.Final</version>
     </dependency>
 
     <dependency>
