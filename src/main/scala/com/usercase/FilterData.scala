@@ -15,7 +15,7 @@ import scala.util.control.Breaks
 /**
   * Created by Jerry on 2017/5/16.
   */
-object Test {
+object FilterData {
 
   def textFilterComposer(x:String): Boolean = {
     var check = false

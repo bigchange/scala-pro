@@ -41,8 +41,6 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
 
   val result = new ListBuffer[(String, String, Double)]
 
-  val trainDataPath = originData
-
   val normalDataPath = formatData
 
   val dataMap = getDataMap(originData)
@@ -50,7 +48,8 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
   val model: tfidfModel = gettfidfModel(normalDataPath)
 
   def hashingTF(vSize: Int) = {
-    new HashingTF(Math.pow(2, vSize).toInt)
+    val hashingTF = new HashingTF(Math.pow(2, vSize).toInt)
+    hashingTF
   }
 
   /**
@@ -105,7 +104,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     top5.foreach { x =>
       val mapId2Value = dataMap.get(x._2).getOrElse("")
       result.+=((mapId2Value, x._3))
-      println(mapId2Value + "\t" + x._3)
+      println(x._2 + "\t" + mapId2Value + "\t" + x._3)
     }
     result
   }
@@ -142,8 +141,10 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     */
   def generateFeatrues(txt:String) = {
     // feature number
-    val hashingTF = new HashingTF(Math.pow(2, 18).toInt)
-    val tf = hashingTF.transform(segment(txt))
+    val hashingTF = new HashingTF(Math.pow(2, 22).toInt)
+    val segments = segment(txt)
+    println("features:segment -> " + segments )
+    val tf = hashingTF.transform(segments)
     val idf = model._1.transform(tf)
     idf
   }
@@ -167,7 +168,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
   def trainModel(data: RDD[(Seq[String], Long)]) = {
 
     // feature number
-    val hashingTF = new HashingTF(Math.pow(2, 18).toInt)
+    val hashingTF = new HashingTF(Math.pow(2, 22).toInt)
 
     val idAndTFVector = data.map { case (seq, num) =>
       val tf = hashingTF.transform(seq)
@@ -176,6 +177,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     idAndTFVector.cache()
     // build idf model
     val idf = new IDF().fit(idAndTFVector.values)
+
     // transform tf vector to tf-idf vector
     val idAndTFIDFVector = idAndTFVector.mapValues(v => idf.transform(v))
     idAndTFIDFVector.cache()
@@ -211,7 +213,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
   /**
     * 标准tfidf模型训练流程化
     */
-  def gettfidfModel(file:String) = {
+  def gettfidfModel(file:String):(IDFModel, RDD[(Long, Vector)]) = {
     val data = preTrainData(file)
     val model = trainModel(data)
     model

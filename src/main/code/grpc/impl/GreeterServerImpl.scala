@@ -2,7 +2,7 @@ package com.grpc.impl
 
 import com.bgfurfeature.hello.rpc.{GreeterGrpc, HelloReply, HelloRequest}
 import com.bgfurfeature.hello.rpc.{GreeterGrpc, HelloReply}
-import com.model.TFIDF
+import com.model.{TFIDF, WordToVectorModel}
 
 import scala.concurrent.Future
 
@@ -14,7 +14,8 @@ class GreeterServerImpl  extends  GreeterGrpc.Greeter { self =>
   override def sayHello(request: HelloRequest): Future[HelloReply] = {
     val txt = request.name
     println("got msg:" + txt)
-    val result = TFIDF.getInstance.cosSimilarity(txt)
+    // val result = TFIDF.getInstance.cosSimilarity(txt)
+    val result = WordToVectorModel.getInstance.similarity(word = txt, 10)
     val reply = HelloReply.apply("hello, welcome using scalaPb\n" + result.mkString("\n"))
     Future.successful(reply)
   }

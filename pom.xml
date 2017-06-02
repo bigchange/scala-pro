@@ -399,7 +399,6 @@
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/io.netty/netty-codec-http -->
-
     <dependency>
     <groupId>io.netty</groupId>
     <artifactId>netty-codec</artifactId>
@@ -498,6 +497,19 @@
           <artifactId>netty-codec-http</artifactId>
         </exclusion>
       </exclusions>
+    </dependency>
+    <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
+    <dependency>
+      <groupId>io.vertx</groupId>
+      <artifactId>vertx-core</artifactId>
+      <version>3.4.1</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/redis.clients/jedis -->
+    <dependency>
+      <groupId>redis.clients</groupId>
+      <artifactId>jedis</artifactId>
+      <version>2.9.0</version>
     </dependency>
 
   </dependencies>

@@ -1,9 +1,13 @@
 package com.test
+import java.io.{File => JFile}
 
 /**
   * Created by Jerry on 2017/5/22.
   */
-object Main extends App {
+object Main  {
 
-  println("com/bgfurfeature/hello")
+  def main(args: Array[String]): Unit = {
+
+  }
+
 }

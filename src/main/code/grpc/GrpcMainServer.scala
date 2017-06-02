@@ -1,7 +1,7 @@
 package com.grpc
 
 import com.grpc.server.GreeterServer
-import com.model.TFIDF
+import com.model.{TFIDF, WordToVectorModel}
 import org.apache.spark.{SparkConf, SparkContext}
 
 import scala.concurrent.ExecutionContext
@@ -19,7 +19,11 @@ object GrpcMainServer {
       //.set("spark.executor.userClassPathFirst", "true")
       )
     val port = 50051
-    TFIDF.apply(sc, args(0), args(1))
+
+    // file:///Users/devops/workspace/shell/jd/result-map file:///Users/devops/workspace/shell/jd/formatResult
+    // TFIDF.apply(sc, args(0), args(1))
+    WordToVectorModel.apply(sc, args(0), args(1))
+
     val server = GreeterServer.apply(port, ExecutionContext.global)
     server.start
     server.blockUntilShutdown

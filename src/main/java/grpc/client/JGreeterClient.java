@@ -10,13 +10,16 @@ import java.util.logging.Level;
 
 import io.grpc.ManagedChannel;
 import io.grpc.ManagedChannelBuilder;
+import io.vertx.core.logging.Logger;
+import io.vertx.core.logging.LoggerFactory;
 
 /**
  * Created by Jerry on 2017/5/24.
+ * java client to connect scala server
  */
 public class JGreeterClient {
 
-  // private static Logger logger = LoggerFactory.getLogger(JGreeterClient.class);
+  private static Logger logger = LoggerFactory.getLogger(JGreeterClient.class);
   private final ManagedChannel channel;
   private final GreeterGrpc.GreeterBlockingStub blockingStub;
 
@@ -44,12 +47,11 @@ public class JGreeterClient {
     try {
       reply = blockingStub.sayHello(request);
     } catch (Exception e) {
-      // logger.info(Level.WARNING, "RPC failed: {0}", e.getMessage());
-      // logger.info(Level.WARNING  + "RPC failed -> " + e.getMessage());
+      logger.info(Level.WARNING, "RPC failed: {0}", e.getMessage());
+      logger.info(Level.WARNING  + "RPC failed -> " + e.getMessage());
       return null;
     }
-    System.out.println("Greeting: " + reply.message());
-    // logger.info("Greeting: " + reply.getMessage());
+    logger.info("Greeting: " + reply.message());
     return reply;
   }
 
@@ -57,10 +59,8 @@ public class JGreeterClient {
     JGreeterClient client = new JGreeterClient("localhost", 50051);
     try {
       client.greeter("asp.net高级开发工程师");
-      // client.greeterAgain("i am grpc, thanks god it works!!");
     } finally {
       client.shutdown();
     }
-    System.out.println("hello word!!");
   }
 }
