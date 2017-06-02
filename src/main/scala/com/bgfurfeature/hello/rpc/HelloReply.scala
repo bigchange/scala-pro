@@ -5,8 +5,6 @@
 
 package com.bgfurfeature.hello.rpc
 
-import com.bgfurfeature.hello.rpc
-
 /** The response message containing the greetings
   */
 @SerialVersionUID(0L)
@@ -48,7 +46,7 @@ final case class HelloReply(
           case tag => _input__.skipField(tag)
         }
       }
-      rpc.HelloReply(
+      HelloReply(
           message = __message
       )
     }
@@ -68,7 +66,7 @@ final case class HelloReply(
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = rpc.HelloReply
+    def companion = HelloReply
 }
 
 object HelloReply extends com.trueaccord.scalapb.GeneratedMessageCompanion[HelloReply] {
@@ -76,14 +74,14 @@ object HelloReply extends com.trueaccord.scalapb.GeneratedMessageCompanion[Hello
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): HelloReply = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
-    rpc.HelloReply(
+    HelloReply(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[String]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[HelloReply] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
-      rpc.HelloReply(
+      HelloReply(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -92,7 +90,7 @@ object HelloReply extends com.trueaccord.scalapb.GeneratedMessageCompanion[Hello
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = HelloProto.scalaDescriptor.messages(1)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = rpc.HelloReply(
+  lazy val defaultInstance = HelloReply(
   )
   implicit class HelloReplyLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, HelloReply]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, HelloReply](_l) {
     def message: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.message)((c_, f_) => c_.copy(message = f_))

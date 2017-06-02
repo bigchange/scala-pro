@@ -16,6 +16,7 @@ import io.vertx.core.logging.LoggerFactory;
 /**
  * Created by Jerry on 2017/5/24.
  * java client to connect scala server
+ * works
  */
 public class JGreeterClient {
 

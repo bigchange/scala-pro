@@ -1,21 +1,19 @@
 package com.bgfurfeature.hello.rpc
 
-import com.bgfurfeature.hello.rpc
-
 object GreeterGrpc {
   val METHOD_SAY_HELLO: _root_.io.grpc.MethodDescriptor[HelloRequest, HelloReply] =
     _root_.io.grpc.MethodDescriptor.create(
       _root_.io.grpc.MethodDescriptor.MethodType.UNARY,
-      _root_.io.grpc.MethodDescriptor.generateFullMethodName("com.bgfurfeature.com.bgfurfeature.hello.rpc.Greeter", "SayHello"),
-      new com.trueaccord.scalapb.grpc.Marshaller(rpc.HelloRequest),
-      new com.trueaccord.scalapb.grpc.Marshaller(rpc.HelloReply))
+      _root_.io.grpc.MethodDescriptor.generateFullMethodName("com.bgfurfeature.com.bgfurfeature.hello.rpc.rpc.Greeter", "SayHello"),
+      new com.trueaccord.scalapb.grpc.Marshaller(HelloRequest),
+      new com.trueaccord.scalapb.grpc.Marshaller(HelloReply))
   
   val METHOD_SAY_HELLO_AGAIN: _root_.io.grpc.MethodDescriptor[HelloRequest, HelloReply] =
     _root_.io.grpc.MethodDescriptor.create(
       _root_.io.grpc.MethodDescriptor.MethodType.UNARY,
-      _root_.io.grpc.MethodDescriptor.generateFullMethodName("com.bgfurfeature.com.bgfurfeature.hello.rpc.Greeter", "SayHelloAgain"),
-      new com.trueaccord.scalapb.grpc.Marshaller(rpc.HelloRequest),
-      new com.trueaccord.scalapb.grpc.Marshaller(rpc.HelloReply))
+      _root_.io.grpc.MethodDescriptor.generateFullMethodName("com.bgfurfeature.com.bgfurfeature.hello.rpc.rpc.Greeter", "SayHelloAgain"),
+      new com.trueaccord.scalapb.grpc.Marshaller(HelloRequest),
+      new com.trueaccord.scalapb.grpc.Marshaller(HelloReply))
   
   trait Greeter extends _root_.com.trueaccord.scalapb.grpc.AbstractService {
     override def serviceCompanion = Greeter
@@ -59,7 +57,7 @@ object GreeterGrpc {
   }
   
   def bindService(serviceImpl: Greeter, executionContext: scala.concurrent.ExecutionContext): _root_.io.grpc.ServerServiceDefinition =
-    _root_.io.grpc.ServerServiceDefinition.builder("com.bgfurfeature.com.bgfurfeature.hello.rpc.Greeter")
+    _root_.io.grpc.ServerServiceDefinition.builder("com.bgfurfeature.com.bgfurfeature.hello.rpc.rpc.Greeter")
     .addMethod(
       METHOD_SAY_HELLO,
       _root_.io.grpc.stub.ServerCalls.asyncUnaryCall(new _root_.io.grpc.stub.ServerCalls.UnaryMethod[HelloRequest, HelloReply] {
@@ -80,6 +78,6 @@ object GreeterGrpc {
   
   def stub(channel: _root_.io.grpc.Channel): GreeterStub = new GreeterStub(channel)
   
-  def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = rpc.HelloProto.javaDescriptor.getServices().get(0)
+  def javaDescriptor: _root_.com.google.protobuf.Descriptors.ServiceDescriptor = HelloProto.javaDescriptor.getServices().get(0)
   
 }

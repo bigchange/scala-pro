@@ -5,8 +5,6 @@
 
 package com.bgfurfeature.hello.rpc
 
-import com.bgfurfeature.hello.rpc
-
 /** The request message containing the user's name.
   */
 @SerialVersionUID(0L)
@@ -48,7 +46,7 @@ final case class HelloRequest(
           case tag => _input__.skipField(tag)
         }
       }
-      rpc.HelloRequest(
+      HelloRequest(
           name = __name
       )
     }
@@ -68,7 +66,7 @@ final case class HelloRequest(
       }
     }
     override def toString: String = _root_.com.trueaccord.scalapb.TextFormat.printToUnicodeString(this)
-    def companion = rpc.HelloRequest
+    def companion = HelloRequest
 }
 
 object HelloRequest extends com.trueaccord.scalapb.GeneratedMessageCompanion[HelloRequest] {
@@ -76,14 +74,14 @@ object HelloRequest extends com.trueaccord.scalapb.GeneratedMessageCompanion[Hel
   def fromFieldsMap(__fieldsMap: scala.collection.immutable.Map[_root_.com.google.protobuf.Descriptors.FieldDescriptor, scala.Any]): HelloRequest = {
     require(__fieldsMap.keys.forall(_.getContainingType() == javaDescriptor), "FieldDescriptor does not match message type.")
     val __fields = javaDescriptor.getFields
-    rpc.HelloRequest(
+    HelloRequest(
       __fieldsMap.getOrElse(__fields.get(0), "").asInstanceOf[String]
     )
   }
   implicit def messageReads: _root_.scalapb.descriptors.Reads[HelloRequest] = _root_.scalapb.descriptors.Reads{
     case _root_.scalapb.descriptors.PMessage(__fieldsMap) =>
       require(__fieldsMap.keys.forall(_.containingMessage == scalaDescriptor), "FieldDescriptor does not match message type.")
-      rpc.HelloRequest(
+      HelloRequest(
         __fieldsMap.get(scalaDescriptor.findFieldByNumber(1).get).map(_.as[String]).getOrElse("")
       )
     case _ => throw new RuntimeException("Expected PMessage")
@@ -92,7 +90,7 @@ object HelloRequest extends com.trueaccord.scalapb.GeneratedMessageCompanion[Hel
   def scalaDescriptor: _root_.scalapb.descriptors.Descriptor = HelloProto.scalaDescriptor.messages(0)
   def messageCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedMessageCompanion[_] = throw new MatchError(__fieldNumber)
   def enumCompanionForFieldNumber(__fieldNumber: Int): _root_.com.trueaccord.scalapb.GeneratedEnumCompanion[_] = throw new MatchError(__fieldNumber)
-  lazy val defaultInstance = rpc.HelloRequest(
+  lazy val defaultInstance = HelloRequest(
   )
   implicit class HelloRequestLens[UpperPB](_l: _root_.com.trueaccord.lenses.Lens[UpperPB, HelloRequest]) extends _root_.com.trueaccord.lenses.ObjectLens[UpperPB, HelloRequest](_l) {
     def name: _root_.com.trueaccord.lenses.Lens[UpperPB, String] = field(_.name)((c_, f_) => c_.copy(name = f_))

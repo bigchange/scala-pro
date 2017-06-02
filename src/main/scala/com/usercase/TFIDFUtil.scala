@@ -18,7 +18,7 @@ import scala.reflect.io.File
   * Created by Administrator on 2016/1/14.
   *  spark mllib 中的tf-idf 算法计算文档相似度
   */
-object TFIDF {
+object TFIDFUtil {
 
   val conf = new SparkConf().setAppName("TfIdfTest").setMaster("local")
   val sc = new SparkContext(conf)
