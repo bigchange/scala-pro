@@ -119,7 +119,7 @@
         <pluginId>grpc-java</pluginId>
         <pluginArtifact>io.grpc:protoc-gen-grpc-java:1.3.0:exe:${os.detected.classifier}</pluginArtifact>
         <protoSourceRoot>src/main/protobuf</protoSourceRoot>
-        <outputDirectory>${basedir}/src/main/generated-sources/proto/</outputDirectory>
+        <outputDirectory>${basedir}/src/main/generated-sources/protobuf/</outputDirectory>
         <clearOutputDirectory>false</clearOutputDirectory>
       </configuration>
       <executions>
