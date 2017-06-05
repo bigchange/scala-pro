@@ -1,5 +1,6 @@
 package grpc.client;
 
+/*
 
 import com.bgfurfeature.hello.rpc.GreeterGrpc;
 import com.bgfurfeature.hello.rpc.HelloReply;
@@ -13,11 +14,13 @@ import io.grpc.ManagedChannelBuilder;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
+*/
 /**
  * Created by Jerry on 2017/5/24.
  * java client to connect scala server
  * works
- */
+ *//*
+
 public class JGreeterClient {
 
   private static Logger logger = LoggerFactory.getLogger(JGreeterClient.class);
@@ -37,11 +40,13 @@ public class JGreeterClient {
     this(ManagedChannelBuilder.forAddress(host, port).usePlaintext(true));
   }
 
-  /**
+  */
+/**
    * sayHello
    * @param message
    * @return
-   */
+   *//*
+
   public HelloReply greeter(String message) {
     HelloRequest request = HelloRequest.apply(message);
     HelloReply reply;
@@ -65,3 +70,4 @@ public class JGreeterClient {
     }
   }
 }
+*/

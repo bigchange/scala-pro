@@ -4,6 +4,7 @@ package com.model
   * Created by Jerry on 2017/5/18.
   */
 import java.io.{File => JavaFile}
+import java.util
 
 import breeze.linalg.{SparseVector, norm}
 import com.hankcs.hanlp.HanLP
@@ -88,7 +89,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     */
   def cosSimilarity(x: String) = {
 
-    val result = new ListBuffer[(String, Double)]
+    val result = new util.HashMap[String, Double]()
     val iDF = generateFeatrues(x)
     val sv1 = iDF.asInstanceOf[SV]
     val bsv1 = new SparseVector[Double](sv1.indices, sv1.values, sv1.size)
@@ -103,7 +104,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     println("====== top 10 sim ======")
     top5.foreach { x =>
       val mapId2Value = dataMap.get(x._2).getOrElse("")
-      result.+=((mapId2Value, x._3))
+      result.put(mapId2Value, x._3)
       println(x._2 + "\t" + mapId2Value + "\t" + x._3)
     }
     result
