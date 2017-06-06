@@ -163,16 +163,19 @@ object TFIDFUtil {
     * @param file
     * @return
     */
-  def trainModel(file:String) = {
+  def trainModel(file:String, saving: Boolean = false) = {
 
     val src = sc.textFile(file).map(_.split("\t")(0))
     val dataSort= src.distinct().zipWithIndex().sortBy(_._2, ascending= true, numPartitions = 1)
     val data = dataSort.map(x => (segment(x._1), x._2))
 
-    data.map(x => (x._1.mkString(",") + "\t" + x._2))
-      .saveAsTextFile("file:///Users/devops/workspace/shell/jd/formatResult")
+    if (saving) {
+      // 删除结果文件（exception）
+      data.map(x => (x._1.mkString(",") + "\t" + x._2))
+        .saveAsTextFile("file:///Users/devops/workspace/shell/jd/formatResult")
 
-    println("finished format result!!")
+      println("finished format result!!")
+    }
 
     val idAndTFVector = data.map { case (seq, num) =>
       val tf = hashingTF.transform(seq)

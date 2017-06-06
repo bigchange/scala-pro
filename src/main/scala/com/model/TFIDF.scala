@@ -9,11 +9,12 @@ import java.util
 import breeze.linalg.{SparseVector, norm}
 import com.hankcs.hanlp.HanLP
 import org.apache.spark.SparkContext
-import org.apache.spark.mllib.feature.{HashingTF, IDF, IDFModel}
+import org.apache.spark.mllib.feature.{HashingTF, IDF, IDFModel, Normalizer}
 import org.apache.spark.mllib.linalg.{Vector, SparseVector => SV}
 import org.apache.spark.rdd.RDD
 
 import scala.collection.mutable.ListBuffer
+import scala.reflect.io.File
 
 object TFIDF extends Serializable {
 
@@ -47,6 +48,7 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
   val dataMap = getDataMap(originData)
 
   val model: tfidfModel = gettfidfModel(normalDataPath)
+
 
   def hashingTF(vSize: Int) = {
     val hashingTF = new HashingTF(Math.pow(2, vSize).toInt)
@@ -146,7 +148,8 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     val segments = segment(txt)
     println("features:segment -> " + segments )
     val tf = hashingTF.transform(segments)
-    val idf = model._1.transform(tf)
+    val normalizer1 = new Normalizer()
+    val idf = model._1.transform((tf))
     idf
   }
 
@@ -173,7 +176,8 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
 
     val idAndTFVector = data.map { case (seq, num) =>
       val tf = hashingTF.transform(seq)
-      (num, tf)
+      val normalizer1 = new Normalizer()
+      (num, (tf))
     }
     idAndTFVector.cache()
     // build idf model
@@ -201,11 +205,41 @@ class TFIDF (sc: SparkContext, originData:String, formatData: String) extends Se
     dataSort
   }
 
+  def updateTrainData(file: String, saving: Boolean) = {
+
+    val src = sc.textFile(file).map(_.split("\t")(0))
+    val dataSort= src.distinct().zipWithIndex().sortBy(_._2, ascending= true, numPartitions = 1)
+
+    val data = dataSort.map(x => (segment(x._1), x._2))
+
+    if (saving) {
+
+      val mapFile = "/Users/devops/workspace/shell/jd/result-map"
+      new File(new JavaFile(mapFile)).deleteRecursively()
+      dataSort.map(x => x._1 + "\t" + x._2)
+        .saveAsTextFile("file://" + mapFile)
+
+      val formatFile = "/Users/devops/workspace/shell/jd/formatResult"
+
+      new File(new JavaFile(formatFile)).deleteRecursively()
+      // 删除结果文件（exception）
+      data.map(x => (x._1.mkString(",") + "\t" + x._2))
+        .saveAsTextFile("file://" + formatFile)
+
+      println("finished format result!!")
+    }
+
+  }
+
   /**
     * 训练数据准备
     * @return
     */
   def preTrainData(file:String) = {
+
+    // 通过不定期更新训练数据集
+    // updateTrainData("file:///Users/devops/workspace/shell/jd/result/*/*", false)
+
     val data = sc.textFile(file).map(_.split("\t")).map { x => (x(0).split(",").toSeq,
       x(1).toLong + 1)}
     data

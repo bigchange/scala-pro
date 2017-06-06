@@ -1,7 +1,6 @@
 package com.usercase
 
 import com.model.TFIDF
-import org.apache.spark.streaming.{Seconds, StreamingContext}
 import org.apache.spark.{SparkConf, SparkContext}
 import web.HttpServing
 
@@ -11,7 +10,11 @@ import web.HttpServing
 object App {
 
   val conf = new SparkConf().setAppName("TfIdfTest")
-      // .setMaster("local")
+  // .set("spark.driver.userClassPathFirst", "true")
+  // .set("spark.executor.userClassPathFirst", "true")
+     .set("spark.jars.packages", "io.netty:netty-common:4.1.8.Final")
+     .set("spark.jars.exclude", "io.netty:netty-common")
+     .setMaster("local")
 
   val sc = new SparkContext(conf)
 
@@ -21,9 +24,9 @@ object App {
 
     val server = new HttpServing
 
-    val Array(o, f) =  args
-    // Array("file:///Users/devops/workspace/shell/jd/result-map",
-    //  "file:///Users/devops/workspace/shell/jd/formatResult")
+    val Array(o, f) =  // args
+     Array("file:///Users/devops/workspace/shell/jd/result-map",
+      "file:///Users/devops/workspace/shell/jd/formatResult")
 
     TFIDF.apply(sc, o, f)
 

@@ -79,6 +79,7 @@ public class HttpServing {
   private void foreachMap(HashMap<String, Object> hashMap, JsonObject jsonObject) {
     JsonArray jsonArray = new JsonArray();
     Set<Map.Entry<String, Object>> entrySet = hashMap.entrySet();
+    List<Map.Entry<String, Object>> list = new ArrayList<>(entrySet);
     Iterator<Map.Entry<String, Object>> iterator = entrySet.iterator();
     while(iterator.hasNext()) {
       Map.Entry entry = iterator.next();
@@ -94,7 +95,7 @@ public class HttpServing {
    * @param router
    */
   private void getJsonJobTitleCores(Router router) {
-    router.get("/json/:key").handler(routingContext -> {
+    router.get("/jobtitle/:key").handler(routingContext -> {
       try {
         HttpServerRequest request = routingContext.request();
         HttpServerResponse response = routingContext.response();
