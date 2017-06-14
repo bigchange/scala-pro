@@ -55,7 +55,8 @@ public class HttpServing {
    * @param router
    */
   public void getText(Router router) {
-    router.get("/raw/:key").handler(routingContext -> {
+    router.get("/raw/:key")
+    .handler(routingContext -> {
       String key = routingContext.request().getParam("key");
       routingContext.response().setStatusCode(202).end("key");
     });
