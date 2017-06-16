@@ -126,6 +126,9 @@ public class SchoolNormalize {
         if (suggests.size() > 0) {
           break;
         }
+        if (size > 1 && i < size - 1 && suggests.size() < 1) {
+          break;
+        }
         String location = locationSegs.get(i);
         for (String suggest: result) {
           if (suggest.contains(location)) {
@@ -135,12 +138,19 @@ public class SchoolNormalize {
       }
 
     } else {
-      suggests.addAll(result);
+      if (result.size() <= 2) {
+        suggests.addAll(result);
+      }
     }
 
     //  山东省鲁东大学，武汉交通大学（不存在该院校）
-    if (suggests.size() == 0 && result.size() <= 2) {
-      suggests.addAll(result);
+    if (suggests.size() == 0 && result.size() == 1) {
+      int size = locationSegs.size();
+      for (int i = size - 1; i >=0 ; i--) {
+        if (result.get(0).contains(locationSegs.get(i))) {
+          suggests.addAll(result);
+        }
+      }
     }
   }
 
@@ -225,6 +235,11 @@ public class SchoolNormalize {
     logger.info("load global dict finished .....");
   }
 
+  /**
+   * 获取匹配到最大的school_org
+   * @param orgSegs
+   * @return
+   */
   private String getLongestOrg(List<String> orgSegs) {
     String ret = "";
     for (String org: orgSegs) {
@@ -267,6 +282,7 @@ public class SchoolNormalize {
     String request = HanLP.convertToSimplifiedChinese(requestMesage);
     // 分词 通过核心词去匹配
     segment(request, keyWordSegs, locationSegs, orgSegs);
+
     if (enableLog) {
       System.out.println(locationSegs + " -> " + keyWordSegs + " -> " + orgSegs);
     }
@@ -290,7 +306,7 @@ public class SchoolNormalize {
 
     String org = getLongestOrg(orgSegs);
 
-    if (suggests.size() > 0) {
+    if (suggests.size() > 0 && suggests.size() <=3) {
       orderSuggest(suggests);
       // 全名匹配到
       if (enableLog) {
@@ -302,6 +318,8 @@ public class SchoolNormalize {
       // 分词 通过核心词去匹配
       // segment(request, keyWordSegs, locationSegs, orgSegs);
       // 通过keyWord 匹配标准学校
+      suggests.clear();
+
       List<String> tempSuggest = new ArrayList<>();
       if (keyWordSegs.size() > 0) {
         StringBuilder stringBuilder = new StringBuilder();
@@ -326,7 +344,6 @@ public class SchoolNormalize {
           suggests.add(request);
         }
       }
-
 
       matchSchool(locationSegs, tempSuggest, suggests);
       orderSuggest(suggests);
