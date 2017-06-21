@@ -1,0 +1,32 @@
+syntax = "proto3";
+
+package com.inmind.idmg.schoolnormalize.rpc;
+
+option java_multiple_files = true;
+
+service SchoolNormalizeService {
+    rpc doNormalize(NormalizeRequest) returns (NormalizeReply) {};
+}
+
+enum Status {
+   NORMALIZE_FAILED=0;
+   NORMALIZE_SUCCESS=1;
+}
+
+message NormalFeature {
+  string text=1;
+  string id=2;
+}
+
+message NormalizeRequest {
+  repeated NormalFeature features=1;
+}
+
+message NormalSuggest {
+  repeated string text=1;
+  string id=2;
+  Status status=3;
+}
+message NormalizeReply {
+  repeated NormalSuggest suggest=1;
+}
