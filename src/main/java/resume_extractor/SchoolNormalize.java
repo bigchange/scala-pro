@@ -16,6 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
@@ -26,7 +28,7 @@ import io.vertx.core.logging.LoggerFactory;
 public class SchoolNormalize {
 
   private Logger logger = LoggerFactory.getLogger(SchoolNormalize.class);
-  private String rootDir = "/Users/devops/workspace/shell/school";
+  private String rootDir = "/Users/devops/workspace/gitlab/idmg/resume_extractor/resources/school";
   private String locationDict = rootDir + "/location_dict.txt";
   private String orgLevelDict = rootDir + "/school_org_level_dict.txt";
   private String normalSchoolDict = rootDir + "/normal_school_dict.txt";
@@ -151,6 +153,10 @@ public class SchoolNormalize {
           suggests.addAll(result);
         }
       }
+      // 上海东华大学
+      if (suggests.size() == 0) {
+        suggests.addAll(result);
+      }
     }
   }
 
@@ -273,13 +279,38 @@ public class SchoolNormalize {
     }
   }
 
+  public String filterSpecialSymbol(String org) {
+    String regEx = "[`~!@#$%^&*()+=|{}':;',//[//]" +
+     ".<>/?~！@#￥%……&*（）——+|{}【】‘；：”“’。，、？[0-9][a-z][A-Z]-\\]\\[―•▪]";
+    Pattern p = Pattern.compile(regEx);
+    Matcher m = p.matcher(org);
+    return m.replaceAll("").trim();
+  }
+
   public List<String> normalize(String requestMesage, Boolean enableLog) {
     List<String> keyWordSegs = new ArrayList<>();
     List<String> locationSegs = new ArrayList<>();
     List<String> orgSegs = new ArrayList<>();
     List<String> suggests = new ArrayList<>();
 
-    String request = HanLP.convertToSimplifiedChinese(requestMesage);
+    String request = HanLP.convertToSimplifiedChinese(requestMesage.replaceAll("\\s*", ""));
+    // rules filter
+    // filter
+    if (request.startsWith("(")) {
+      request = request.substring(request.indexOf(")") + 1);
+    }
+
+    request = filterSpecialSymbol(request);
+
+    if (request.contains("大学")) {
+      if (request.indexOf("大学") < request.length() - 2) {
+        request = request.substring(0, request.indexOf("大学") + 2);
+      }
+    } else if (request.contains("学院")) {
+      if (request.indexOf("学院") < request.length() - 2) {
+        request = request.substring(0, request.indexOf("学院") + 2);
+      }
+    }
     // 分词 通过核心词去匹配
     segment(request, keyWordSegs, locationSegs, orgSegs);
 
@@ -324,7 +355,10 @@ public class SchoolNormalize {
       if (keyWordSegs.size() > 0) {
         StringBuilder stringBuilder = new StringBuilder();
         for (String keyWord : keyWordSegs) {
-          stringBuilder.append(keyWord);
+          if (!"(".equals(keyWord) && !")".equals(keyWord) && !"-".equals(keyWord) && !"&".equals
+              (keyWord) && !":".equals(keyWord)) {
+            stringBuilder.append(keyWord);
+          }
         }
         if ("大学".equals(org)) {
           // 多个关键字需要连接在一起匹配
