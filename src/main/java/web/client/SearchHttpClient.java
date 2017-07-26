@@ -6,6 +6,9 @@ import org.apache.commons.httpclient.methods.StringRequestEntity;
 import org.apache.commons.httpclient.params.HttpClientParams;
 
 import java.io.IOException;
+import java.util.ArrayList;
+
+import io.vertx.core.json.JsonObject;
 
 /**
  * Created by Jerry on 2017/6/7.
@@ -47,8 +50,12 @@ public class SearchHttpClient {
 
     String body = "{\"query\":\"北京大学 java工程师\",\"pageSize\":10,\"page\":0}";
     String url = // "http://172.16.52.103:20202/search/api";
-     "http://211.152.62.99:20202/search/api"; // online
+     "http://hg005:20698/api/tokenizer"; // online
     String string = searchHttpClient.postAndReturnString(searchHttpClient.getClient(), url, body);
-    System.out.println(string);
+    JsonObject jsonObject = new JsonObject(string);
+    ArrayList<String> list = (ArrayList)jsonObject.getValue("list", null);
+    for (String item: list) {
+      System.out.println(item);
+    }
   }
 }
