@@ -21,6 +21,8 @@ object App {
 
   val sc = new SparkContext(conf)
 
+  val filterCertificationList = sc.textFile("/Users/devops/Downloads/filter_certification.txt")
+    .collect()
   // val ssc = new StreamingContext(sc,Seconds(10))
 
   def getData(src: String) = {
@@ -145,6 +147,12 @@ object App {
 
   }
 
+
+
+  def filter(text:String): Unit = {
+
+  }
+
   def certificate() = {
     val src = "/Users/devops/workspace/shell/resume/distribute_counter/certsrank"
 
@@ -155,20 +163,17 @@ object App {
     val validate = data.map(x => (x._1, (x._2, x._3)))
 
     val filter = data.map(x => (x._1, (x._2, x._3)))
-      .filter(x => x._2._1 != "计算机等级证书"
-        && x._2._1 != "英语四级"
-        && x._2._1 != "驾照" && x._2._1 != "NIT证书"
-        && x._2._1 != "英语六级" && x._2._1 != "普通话证书")
+      .filter(x => !filterCertificationList.contains(x._2._1))
 
     val total = validate
-      .filter(x => x._2._1 != "计算机等级证书"
-      && x._2._1 != "英语四级"
-      && x._2._1 != "驾照" && x._2._1 != "NIT证书"
-      && x._2._1 != "英语六级" && x._2._1 != "普通话证书")
+      .filter(x => !filterCertificationList.contains(x._2._1))
       .map(x => (x._1, x._2._2))
       .reduceByKey(_ + _ )
 
-    val top = validate.leftOuterJoin(total)
+    val saveToMYysql = filter.leftOuterJoin(total)
+      .map(x=> (x._1, (x._2._1._1, x._2._1._2, x._2._2.getOrElse(1)))).cache()
+
+    val top = filter.leftOuterJoin(total)
       .map(x=> (x._1, (x._2._1._1, x._2._1._2, x._2._2.getOrElse(1)))).cache()
 
     /*top.map(x => (x._1 , x._2._1 , x._2._2 , x._2._3))
@@ -180,7 +185,7 @@ object App {
 
       top.groupByKey().foreach { x =>
       val key = x._1
-      val value = x._2.toSeq.sortBy(x => -(x._2)).take(11).foreach {y =>
+      val value = x._2.toSeq.sortBy(x => -(x._2)).take(10).foreach {y =>
         certlb.+=((key, y._1, y._2, y._3))
       }
 
@@ -192,6 +197,7 @@ object App {
       "/certsrankTop")
 
     println(certlb.size)
+    println("filterCertificationList size:" + filterCertificationList.size)
 
   }
 
