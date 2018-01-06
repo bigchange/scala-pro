@@ -613,10 +613,10 @@ object App {
        projectSize*/
        // degree()
        // seniority
-       certificate()
+       // certificate()
        // skills()
        // companySize()
-      // finalScore()
+       finalScore()
 
   }
 

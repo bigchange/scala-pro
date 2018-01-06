@@ -20,6 +20,7 @@ object Certificatiomn {
 
   val parameter = new mutable.HashMap[String, String]()
 
+  // 证书列表整理
   def certifcation(): Unit = {
     val one = "/Users/devops/Downloads/c1.txt"
     val two = "/Users/devops/Downloads/c2.txt"
@@ -35,6 +36,7 @@ object Certificatiomn {
 
   }
 
+  // 技能列表数据整理
   def skill: Unit = {
     val src = "/Users/devops/workspace/shell/conf/skill.txt"
     val data = sc.textFile(src).map( x => x).distinct()
@@ -43,8 +45,8 @@ object Certificatiomn {
   }
 
   def main(args: Array[String]): Unit = {
-    // skill
-    certifcation()
+     skill
+    // certifcation()
   }
 
 

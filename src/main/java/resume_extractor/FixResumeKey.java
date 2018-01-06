@@ -17,7 +17,6 @@ import io.vertx.core.json.JsonObject;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 import scala.Serializable;
-import scala.tools.cmd.gen.AnyVals;
 
 /**
  * Created by Jerry on 2017/6/9.

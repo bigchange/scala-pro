@@ -8,6 +8,7 @@ import org.apache.commons.httpclient.params.HttpClientParams;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 
 /**
@@ -53,9 +54,11 @@ public class SearchHttpClient {
      "http://hg005:20698/api/tokenizer"; // online
     String string = searchHttpClient.postAndReturnString(searchHttpClient.getClient(), url, body);
     JsonObject jsonObject = new JsonObject(string);
-    ArrayList<String> list = (ArrayList)jsonObject.getValue("list", null);
-    for (String item: list) {
-      System.out.println(item);
+    JsonArray jsonArray = jsonObject.getJsonArray("segments", null);
+    for (int i = 0; i < jsonArray.size(); i++) {
+
+      System.out.println(jsonArray.getString(i));
     }
+
   }
 }
