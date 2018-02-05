@@ -56,14 +56,17 @@ public class CaseGo {
         }
     }
 
-    private void readContentFromDB(ArrayList<String> arrayList) {
+    private void readContentFromDB(ArrayList<String> arrayList, String source, String timeStamp,
+                                   String endTimeStamp) {
 
-        String query = "select content from case_case where source = ? and updated_at >= ?";
+        String query = "select content from case_case where source = ? and updated_at >= ? and " +
+            "updated_at <= ? ";
         int count = 0;
         try {
             PreparedStatement preparedStatement = MysqlUtil.select(query);
-            preparedStatement.setString(1, "LIELUOBO_1.0");
-            preparedStatement.setLong(2, Long.parseLong("1513872000000"));
+            preparedStatement.setString(1, source);
+            preparedStatement.setLong(2, Long.parseLong(timeStamp));
+            preparedStatement.setLong(3, Long.parseLong(endTimeStamp));
             ResultSet resultSet  = preparedStatement.executeQuery();
             while (resultSet.next()) {
                 Blob content = resultSet.getBlob(1);
@@ -86,12 +89,19 @@ public class CaseGo {
     }
 
     public static void main(String[] args) {
-
+        if (args.length < 4) {
+            System.err.println("args: [Source] [timeStamp] [endTimeStamp] [SavePath]");
+            return;
+        }
+        String source = args[0];// "LIELUOBO_1.0";
+        String timeStamp = args[1];// "1515340800000";
+        String endStamp = args[2];// "1515945600000";
+        String path = args[3];// "/Users/devops/workspace/shell/case_go/case_go_1.8-1.15.txt";
         CaseGo caseGo = new CaseGo();
         caseGo.initDict();
         ArrayList<String> arrayList = new ArrayList<>();
-        caseGo.readContentFromDB(arrayList);
-        caseGo.output("/Users/devops/Downloads/case_case_12.12.txt", arrayList);
+        caseGo.readContentFromDB(arrayList,source , timeStamp, endStamp);
+        caseGo.output(path, arrayList);
 
     }
 }

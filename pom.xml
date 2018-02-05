@@ -29,8 +29,8 @@
     </pluginRepository>
   </pluginRepositories>
   <build>
-    <sourceDirectory>src/main/scala</sourceDirectory>
-    <testSourceDirectory>src/test/scala</testSourceDirectory>
+    <sourceDirectory>src/main/java</sourceDirectory>
+    <testSourceDirectory>src/test/java</testSourceDirectory>
     <extensions>
       <extension>
         <groupId>kr.motd.maven</groupId>
@@ -159,7 +159,7 @@
                 </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>rdd.ConsumerDemo</Main-Class>
+                    <Main-Class>case_go.CaseGo</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>

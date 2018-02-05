@@ -6,7 +6,7 @@ import java.text.SimpleDateFormat
 import com.model.TFIDF
 import jxl.{CellType, DateCell, Workbook}
 import org.apache.spark.{SparkConf, SparkContext}
-import web.HttpServing
+// import web.HttpServing
 
 import scala.collection.mutable
 import scala.collection.mutable.ListBuffer
