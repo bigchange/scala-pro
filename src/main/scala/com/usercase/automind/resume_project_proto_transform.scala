@@ -19,9 +19,7 @@ object resume_project_proto_transform {
 
     var src = ""
 
-    var data = sc.textFile(src).map { x =>
-
-    }
+    var data = sc.textFile(src).map { x =>}
 
   }
 
