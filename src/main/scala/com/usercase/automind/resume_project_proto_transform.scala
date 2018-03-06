@@ -23,7 +23,6 @@ object resume_project_proto_transform {
 
     }
 
-
   }
 
   // 转成resume
