@@ -3,6 +3,7 @@ package com.usercase.automind
 import io.vertx.core.json.{JsonArray, JsonObject}
 import org.apache.spark.{SparkConf, SparkContext}
 
+
 object resume_project_proto_transform {
 
   val conf = new SparkConf().setAppName("resume_project_proto_transform")
