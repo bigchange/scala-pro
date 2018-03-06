@@ -1,3 +1,4 @@
+/*
 package web;
 
 import com.model.TFIDF;
@@ -24,9 +25,11 @@ import io.vertx.core.logging.LoggerFactory;
 import io.vertx.ext.web.Router;
 import io.vertx.ext.web.handler.BodyHandler;
 
+*/
 /**
  * 单独用来处理shell输出
- */
+ *//*
+
 class StreamGobbler extends Thread
 {
   InputStream is;
@@ -54,10 +57,12 @@ class StreamGobbler extends Thread
     }
   }
 }
+*/
 /**
  * Created by Jerry on 2017/5/11.
  * http服务请求处理类
- */
+ *//*
+
 public class HttpServing {
 
   private final static Vertx vertx = Vertx.vertx();
@@ -66,10 +71,12 @@ public class HttpServing {
 
   private static Logger logger = LoggerFactory.getLogger(HttpServing.class);
 
-  /**
+  */
+/**
    * help doc
    * @param router
-   */
+   *//*
+
   private void help(Router router) {
     router.get("/help").handler(routingContext -> {
       try {
@@ -104,10 +111,12 @@ public class HttpServing {
     });
   }
 
-  /**
+  */
+/**
    * 自定义服务
    * @param router
-   */
+   *//*
+
   public void getText(Router router) {
     router.get("/raw/:key")
     .handler(routingContext -> {
@@ -116,13 +125,15 @@ public class HttpServing {
     });
   }
 
-  /**
+  */
+/**
    * json format
    * @param status
    * @param msg
    * @param data
    * @return
-   */
+   *//*
+
   private JsonObject formatResponse(int status, String msg, JsonObject data) {
     JsonObject resp = new JsonObject();
     resp.put("status", status);
@@ -144,11 +155,13 @@ public class HttpServing {
     }
     jsonObject.put("data", jsonArray);
   }
-  /**
+  */
+/**
    * GET json jobTitle core Extractor
    * URI:/json/:key
    * @param router
-   */
+   *//*
+
   private void getJsonJobTitleCores(Router router) {
     router.get("/jobtitle/:key").handler(routingContext -> {
       try {
@@ -219,3 +232,4 @@ public class HttpServing {
     httpServing.init();
   }
 }
+*/

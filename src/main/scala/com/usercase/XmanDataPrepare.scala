@@ -102,9 +102,6 @@ object XmanDataPrepare {
         if (hits != null) {
           hitCounter += 1
         }
-        if (hitCounter != 0 && hitCounter % 100 == 0){
-          println("req ->" + x + ", res -> " + string)
-        }
       } catch {
         case e: Exception =>
           println(e.getCause)
@@ -117,9 +114,11 @@ object XmanDataPrepare {
     println("result_size => " + result.size + ", counter -> " + counter + ", hitCounter -> " +
       hitCounter)
 
-    print("qp time min:" + timeLb.min + ", time max:" + timeLb.max)
+    println("qp time min:" + timeLb.min + ", time max:" + timeLb.max)
 
-    print("es took min:" + tookLb.min + ", took max:" + tookLb.max)
+    println("es took min:" + tookLb.min + ", took max:" + tookLb.max)
+
+    println("last:" + (endedTime - startedTime))
 
     // clear var
     clearVar
