@@ -14,11 +14,11 @@ object ResumeProjectMappingMain {
   val sc = new SparkContext(conf)
 
   def mapping(): Unit = {
-    var dir = "/Users/devops/Downloads/resume_project_id/cehr_pass_refuse"
+    var dir = "/Users/devops/Downloads/resume_project_id/hr_pass_refuse"
     var classFile = dir + "/class.txt"
     var resumeIdFile = dir + "/resume_id.txt"
     var projectIdFile = dir + "/project_id.txt"
-    var result = dir + "/result.txt"
+    var result = dir + "/result"
 
     var classData = sc.textFile(classFile).zipWithIndex().map(x => (x._2, x._1))
     var resumeIdData = sc.textFile(resumeIdFile).zipWithIndex().map(x => (x._2, x._1))
@@ -34,7 +34,7 @@ object ResumeProjectMappingMain {
     var classFile = dir + "/class.txt"
     var resumeIdFile = dir + "/resume_id.txt"
     var projectIdFile = dir + "/project_id.txt"
-    var result = dir + "/result.txt"
+    var result = dir + "/result"
 
     var classData = sc.textFile(classFile).zipWithIndex().map(x => (x._2, x._1))
     var resumeIdData = sc.textFile(resumeIdFile).zipWithIndex().map(x => (x._2, x._1))
