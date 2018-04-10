@@ -1,3 +1,4 @@
+/*
 package grpc.client;
 
 import com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceGrpc;
@@ -14,9 +15,11 @@ import io.grpc.StatusRuntimeException;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
+*/
 /**
  * Created by higgs on 2017/4/12.
- */
+ *//*
+
 public class NormalizeClient {
   private static Logger logger = LoggerFactory.getLogger(NormalizeClient.class);
   private final ManagedChannel channel;
@@ -79,3 +82,4 @@ public class NormalizeClient {
 
   }
 }
+*/

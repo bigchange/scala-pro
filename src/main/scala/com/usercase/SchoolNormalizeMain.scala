@@ -1,3 +1,4 @@
+/*
 package com.usercase
 
 import java.io.{File, PrintWriter}
@@ -90,3 +91,4 @@ object SchoolNormalizeMain {
   }
 
 }
+*/

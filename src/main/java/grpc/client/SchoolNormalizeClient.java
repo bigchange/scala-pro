@@ -1,3 +1,4 @@
+/*
 package grpc.client;
 
 import com.inmind.idmg.schoolnormalize.rpc.NormalFeature;
@@ -15,9 +16,11 @@ import io.grpc.StatusRuntimeException;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
+*/
 /**
  * Created by Jerry on 2017/6/14.
- */
+ *//*
+
 public class SchoolNormalizeClient {
   private static Logger logger = LoggerFactory.getLogger(SchoolNormalizeClient.class);
   private final ManagedChannel channel;
@@ -79,3 +82,4 @@ public class SchoolNormalizeClient {
     schoolNormalizeClient.shutdown();
   }
 }
+*/

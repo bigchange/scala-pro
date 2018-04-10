@@ -1,3 +1,4 @@
+/*
 package grpc.client;
 
 import com.inmind.idmg.major.rpc.MajorReply;
@@ -12,9 +13,11 @@ import io.grpc.StatusRuntimeException;
 import io.vertx.core.logging.Logger;
 import io.vertx.core.logging.LoggerFactory;
 
+*/
 /**
  * Created by Jerry on 2017/6/14.
- */
+ *//*
+
 public class MajorNormalizeClient {
   private static Logger logger = LoggerFactory.getLogger(MajorNormalizeClient.class);
   private final ManagedChannel channel;
@@ -59,3 +62,4 @@ public class MajorNormalizeClient {
   }
 
 }
+*/

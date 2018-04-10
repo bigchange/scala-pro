@@ -14,7 +14,7 @@ object ResumeProjectMappingMain {
   val sc = new SparkContext(conf)
 
   def mapping(): Unit = {
-    var dir = "/Users/devops/Downloads/resume_project_id/hr_pass_refuse"
+    var dir = "/Users/devops/Downloads/resume_project_id/20180321"
     var classFile = dir + "/class.txt"
     var resumeIdFile = dir + "/resume_id.txt"
     var projectIdFile = dir + "/project_id.txt"
