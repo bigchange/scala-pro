@@ -30,13 +30,31 @@ object automing_order {
 
   }
 
+  def filter_resume_project_detail(line: String) = {
+    val label = "HR通过"
+    val json = new JsonObject(line)
+    val resume_id = json.getInteger("resume_id", 0)
+    val project_id = json.getInteger("project_id", 0)
+    val project = json.getJsonObject("resume", new JsonObject())
+    val resume = json.getJsonObject("project", new JsonObject())
+    val js = new JsonObject()
+    js.put("label", label)
+    js.put("resumeId", resume_id)
+    js.put("projectId", project_id)
+    js.put("resumeContent", resume)
+    js.put("projectDetail", project)
+    js.toString
+  }
+
+
   def main(args: Array[String]): Unit = {
 
-    var src = "/Users/devops/Downloads/order_2018_3_28.json"
+    var src = "/Users/devops/Downloads/resume_project_id/automind_order.json"
 
     var data = sc.textFile(src).map { x =>
-      filter_only_order_data(x)
-    }.saveAsTextFile("/Users/devops/Downloads/only_order_2018_3_28.csv")
+      // filter_only_order_data(x)
+      filter_resume_project_detail(x)
+    }.saveAsTextFile("/Users/devops/Downloads/resume_project_id/automind_order_result")
 
   }
 

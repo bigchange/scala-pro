@@ -30,23 +30,23 @@ object ResumeProjectMappingMain {
   }
 
   def cwRefuseMapping(): Unit = {
-    var dir = "/Users/devops/Downloads/resume_project_id/cw_refuse"
-    var classFile = dir + "/class.txt"
+    var dir = "/Users/devops/Downloads/resume_project_id/20180411"
+    // var classFile = dir + "/class.txt"
     var resumeIdFile = dir + "/resume_id.txt"
     var projectIdFile = dir + "/project_id.txt"
     var result = dir + "/result"
 
-    var classData = sc.textFile(classFile).zipWithIndex().map(x => (x._2, x._1))
+    // var classData = sc.textFile(classFile).zipWithIndex().map(x => (x._2, x._1))
     var resumeIdData = sc.textFile(resumeIdFile).zipWithIndex().map(x => (x._2, x._1))
     var projectIdData = sc.textFile(projectIdFile).zipWithIndex().map(x => (x._2, x._1))
     resumeIdData.leftOuterJoin(projectIdData)
       .sortBy(x => x._1, ascending = true)
-      .map(x => (x._1+1) + "," + "CW拒绝" +  "," + x._2._1 + "," + x._2._2.get)
+      .map(x => (x._1+1) + "," + "HR拒绝" +  "," + x._2._1 + "," + x._2._2.get)
       .repartition(1).saveAsTextFile(result)
   }
 
   def main(args: Array[String]): Unit = {
-    mapping()
-    // cwRefuseMapping()
+    // mapping()
+    cwRefuseMapping()
   }
 }
