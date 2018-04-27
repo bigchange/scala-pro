@@ -17,22 +17,25 @@ object App {
   val sc = new SparkContext(conf)
 
   def checkCount(): Unit = {
-    val src = "/Users/devops/workspace/shell/resume/matching_result/new_sample_dict.txt"
+    val src = "/Users/devops/workspace/shell/conf/mindcube/resume_info_counter/*"
 
-    val count = sc.textFile(src).map(_.split("\t"))
-
-    val c = count.map(x => ("1", x(1).toLong)).map { x =>
-      var v = x._2
-      if (x._2 > 5500) {
-        v = 5500
-      }
-      ("1", v)
-    }.reduceByKey(_ + _).map(x => x._2).foreach(println)
+    val count = sc.textFile(src).filter(!_.contains("_unk_"))
+        .filter(_.split("\t").length == 2)
+      .saveAsTextFile("/Users/devops/workspace/shell/conf/mindcube/sample_dict")
 
   }
 
+  def checkPosition(): Unit = {
+    val src = "/Users/devops/workspace/shell/conf/mindcube/resume_info_counter/*"
+
+    val count = sc.textFile(src).filter(_.contains("_unk_"))
+      .filter(_.split("\t").length == 2)
+      .saveAsTextFile("/Users/devops/workspace/shell/conf/mindcube/position_dict")
+  }
+
   def main(args: Array[String]): Unit = {
-    checkCount()
+    // checkCount()
+    checkPosition()
 
   }
 
