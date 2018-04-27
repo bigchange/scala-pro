@@ -5,8 +5,6 @@ import java.util
 import dgraph.DgraphClient
 import org.apache.spark.{SparkConf, SparkContext}
 
-import scala.collection.JavaConversions._
-import collection.JavaConversions._
 object App {
 
   val conf = new SparkConf().setAppName("dgraph")
