@@ -19,6 +19,22 @@ object ResumeProjectMappingMain {
   val hrPass = Array(22,42,51,31,32,21,41,43,52,33)
   val hrRefuse = Array(13)
 
+  def mappingWithExcelDumpFile(): Unit = {
+    var dir = "/Users/devops/Downloads/resume_project_id/20180515"
+    var file = dir + "/20180515.txt"
+    var result = dir + "/result"
+    sc.textFile(file).map(_.split("\t"))
+      .map { x =>
+        // id, status, resumeId, projectId
+        var status = x(3).toInt
+        var finalStatus =
+          if (hrPass.contains(status)) "HR通过"
+          else if (hrRefuse.contains(status)) "HR拒绝"
+          else "None"
+        x(0) + "," + finalStatus + "," + x(2) + "," + x(1)
+      }.repartition(1).saveAsTextFile(result)
+  }
+
   def mapping(): Unit = {
     var dir = "/Users/devops/Downloads/resume_project_id/20180413"
     var classFile = dir + "/class.txt"
@@ -66,7 +82,8 @@ object ResumeProjectMappingMain {
   }
 
   def main(args: Array[String]): Unit = {
-     mapping()
+     // mapping()
     // cwRefuseMapping()
+    mappingWithExcelDumpFile()
   }
 }

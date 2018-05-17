@@ -1,8 +1,9 @@
 package com.util
 
-import java.util
+import java.{io, util}
 
 import scala.collection.mutable
+import scala.reflect.io.File
 
 /**
   * Created by Jerry on 2017/7/26.
@@ -109,6 +110,11 @@ object Utils {
     }.sum
     // println("sum:", res)
     return res  ^ (key & 0x0FFFFFFFFFFFFFFFL)
+  }
+
+  def deleteDir(dir: String): Unit = {
+    new File(new io.File(dir)).deleteRecursively()
+
   }
 
 

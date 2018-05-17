@@ -1,9 +1,12 @@
 package com.dgraph
 
-import java.util
+import java.{io, util}
 
+import com.util.Utils
 import dgraph.DgraphClient
 import org.apache.spark.{SparkConf, SparkContext}
+
+import scala.reflect.io.File
 
 object App {
 
@@ -11,21 +14,31 @@ object App {
     .setMaster("local")
 
   val sc = new SparkContext(conf)
-  val host = "172.20.0.68"
-  val port = 9080
-  val client = new DgraphClient(host, port)
 
-  // dgraph write data
-  def test_mutation(): Unit = {
+  def school_dict(): Unit = {
+    var dir = "/Users/devops/Documents/知识图谱/school"
+    // var classFile = dir + "/class.txt"
+    var sname = dir + "/school_name.txt"
+    var sname_en = dir + "/school_name_en.txt"
+    var alias = dir + "/alias.txt"
+    var result = dir + "/result"
 
-    val src = "/Users/devops/workspace/shell/part-m-00371"
-    val resumes = sc.textFile(src).map(_.split("\t")).map (_(1)).collect()
-    val list = new util.ArrayList[String]()
-    resumes.foreach(x => list.add(x))
-    client.mutation(list)
+    Utils.deleteDir(result)
+
+    var aliasData = sc.textFile(alias).zipWithIndex().map(x => (x._2, x._1))
+    var schoolName = sc.textFile(sname).zipWithIndex().map(x => (x._2, x._1))
+    var schoolNameEn = sc.textFile(sname_en).zipWithIndex().map(x => (x._2, x._1))
+    schoolName.leftOuterJoin(schoolNameEn).leftOuterJoin(aliasData)
+      .sortBy(x => x._1, ascending = true)
+      .map(x => (x._1 + 1) + "\t" + x._2._1._1 + "\t" + x._2._1._2.getOrElse("") + "\t" + x._2._2.getOrElse(""))
+      .repartition(1).saveAsTextFile(result)
+
   }
 
+
+
   def main(args: Array[String]): Unit = {
-    test_mutation()
+
+    school_dict()
   }
 }
