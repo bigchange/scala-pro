@@ -269,6 +269,10 @@
       <artifactId>spark-mllib_2.11</artifactId>
       <version>1.6.0</version>
       <exclusions>
+        <exclusion>
+          <groupId>io.grpc</groupId>
+          <artifactId>grpc-all</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
@@ -342,7 +346,7 @@
     <dependency>
       <groupId>io.grpc</groupId>
       <artifactId>grpc-netty</artifactId>
-      <version>1.3.0</version>
+      <version>1.10.0</version>
     </dependency>
 
     <dependency>
