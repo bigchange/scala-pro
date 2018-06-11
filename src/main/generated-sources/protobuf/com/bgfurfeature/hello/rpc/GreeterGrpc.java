@@ -30,7 +30,7 @@ public final class GreeterGrpc {
   public static final String SERVICE_NAME = "com.bgfurfeature.hello.rpc.Greeter";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.bgfurfeature.hello.rpc.HelloRequest,
       com.bgfurfeature.hello.rpc.HelloReply> METHOD_SAY_HELLO =
       io.grpc.MethodDescriptor.create(
@@ -39,7 +39,7 @@ public final class GreeterGrpc {
               "com.bgfurfeature.hello.rpc.Greeter", "SayHello"),
           io.grpc.protobuf.ProtoUtils.marshaller(com.bgfurfeature.hello.rpc.HelloRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(com.bgfurfeature.hello.rpc.HelloReply.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.bgfurfeature.hello.rpc.HelloRequest,
       com.bgfurfeature.hello.rpc.HelloReply> METHOD_SAY_HELLO_AGAIN =
       io.grpc.MethodDescriptor.create(

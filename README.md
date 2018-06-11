@@ -1,2 +1,2 @@
 # scala-pro
-scala project + maven + grpc
+scala project + maven + com.higgs.grpc

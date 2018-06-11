@@ -27,7 +27,7 @@ public final class ResumeMajorServiceGrpc {
   public static final String SERVICE_NAME = "com.inmind.idmg.major.rpc.ResumeMajorService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.inmind.idmg.major.rpc.MajorRequest,
       com.inmind.idmg.major.rpc.MajorReply> METHOD_DO_MAJOR =
       io.grpc.MethodDescriptor.create(
