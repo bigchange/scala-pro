@@ -7,7 +7,7 @@ import org.apache.spark.{SparkConf, SparkContext}
   */
 object App {
 
-  val conf = new SparkConf().setAppName("TfIdfTest")
+  val conf = new SparkConf().setAppName("jobNormal")
     // .set("spark.driver.userClassPathFirst", "true")
     // .set("spark.executor.userClassPathFirst", "true")
     .set("spark.jars.packages", "io.netty:netty-common:4.1.8.Final")
@@ -16,27 +16,14 @@ object App {
 
   val sc = new SparkContext(conf)
 
-  def checkCount(): Unit = {
-    val src = "/Users/devops/workspace/shell/conf/mindcube/resume_info_counter/*"
-
-    val count = sc.textFile(src).filter(!_.contains("_unk_"))
-        .filter(_.split("\t").length == 2)
-      .saveAsTextFile("/Users/devops/workspace/shell/conf/mindcube/sample_dict")
-
-  }
-
-  def checkPosition(): Unit = {
-    val src = "/Users/devops/workspace/shell/conf/mindcube/resume_info_counter/*"
-
-    val count = sc.textFile(src).filter(_.contains("_unk_"))
-      .filter(_.split("\t").length == 2)
-      .saveAsTextFile("/Users/devops/workspace/shell/conf/mindcube/position_dict")
-  }
-
   def main(args: Array[String]): Unit = {
-    // checkCount()
-    checkPosition()
-
+    if (args.length < 1) {
+      print("Usgae <src>")
+      System.exit(-1)
+    }
+    val src = args(0)
+    var count = sc.textFile(src).count()
+    println("count:" + count)
   }
 
 }
