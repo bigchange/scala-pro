@@ -35,7 +35,8 @@ object App {
     val data = rdd.map { x =>
       val name = x(0)
       val frq = x(1).toInt
-      if (frq >= 0 && frq < 150 && (name.endsWith("部") || name.endsWith("部门"))) {
+      if (frq >= 50 && frq < 100 && (name.endsWith("部") || name.endsWith("部门")
+        )) {
          name.replace("部门", "部").toLowerCase
       } else {
         ""
@@ -66,9 +67,21 @@ object App {
       .saveAsTextFile(out)
   }
 
+  def checkFaileFrq(): Unit = {
+    var dir = "/Users/devops/workspace/gitlab/dept_norm"
+    val out = "/Users/devops/workspace/gitlab/dept_norm/dept_dict_failed"
+    Utils.deleteDir(out)
+    var d = dir + "/failed_normed/1_dodistinct_dept_norm/*"
+    val r = sc.textFile(d).map(x =>(x.split("\t")(0).toLowerCase,1))
+      .reduceByKey(_ + _ )
+      .sortBy(_._2, ascending = false).repartition(1)
+      .saveAsTextFile(out)
+  }
+
   def main(args: Array[String]): Unit = {
-    filterEndWithDept()
+    // filterEndWithDept()
     // combineDict()
+    checkFaileFrq()
   }
 
 }
