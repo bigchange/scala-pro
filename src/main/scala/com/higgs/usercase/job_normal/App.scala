@@ -36,7 +36,7 @@ object App {
 
     println("class_size:" + targets.length)
 
-    for (i <- 0 until 3) {
+    for (i <- 0 until 5) {
 
       var rDD: RDD[(String, String)] = sc.emptyRDD[(String, String)]
       println("class_index:" + i)
