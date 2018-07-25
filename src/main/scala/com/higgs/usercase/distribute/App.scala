@@ -1,5 +1,6 @@
 package com.higgs.usercase.distribute
 
+import com.higgs.util.Utils
 import io.vertx.core.json.JsonObject
 import org.apache.spark.rdd.RDD
 import org.apache.spark._
@@ -21,8 +22,6 @@ object App {
 
   val sc = new SparkContext(conf)
 
-  val filterCertificationList = sc.textFile("/Users/devops/Downloads/filter_certification.txt")
-    .collect()
   // val ssc = new StreamingContext(sc,Seconds(10))
 
   def getData(src: String) = {
@@ -147,13 +146,13 @@ object App {
 
   }
 
-
-
   def filter(text:String): Unit = {
 
   }
 
   def certificate() = {
+    val filterCertificationList = sc.textFile("/Users/devops/Downloads/filter_certification.txt")
+      .collect()
     val src = "/Users/devops/workspace/shell/resume/distribute_counter/certsrank"
 
     val data = getData(src).cache()
@@ -605,6 +604,38 @@ object App {
 
   }
 
+  val listBuffer = new ListBuffer[(String)]()
+  def countWorkExprsDis(): Unit = {
+    var result: RDD[String] = sc.emptyRDD
+    val src  = "/Users/devops/workspace/shell/data/count_resume_exprs.txt"
+    val out = "/Users/devops/workspace/shell/data/count_resume_exprs_dis"
+    Utils.deleteDir(out)
+    val data = sc.textFile(src).map(_.split("\t")).filter(_.length == 2).cache()
+    data.map(x => (x(0), x(1).toInt)).sortBy(_._2, ascending =  false)
+      // .saveAsTextFile("/Users/devops/workspace/shell/data/count_resume_exprs_order")
+    val count = data.count()
+    val tr = data.map(x => (x(1).toInt, 1)).reduceByKey(_ + _)
+      .map { x =>
+        (x._1 , x._2)
+      }.sortBy(_._1, ascending = true)
+      .cache()
+
+    val keys = tr.map(_._1).collect()
+    for ( i <- 0 until  keys.length) {
+      println("index :" + i)
+      var key = keys.apply(i)
+      var res = tr.filter(_._1 <= key)
+        .map(x => (key, x._2))
+        .reduceByKey(_ + _)
+        .map(x => x._1 + "\t" + x._2 + "\t" + (x._2 * 1.0 / count * 100)
+        .formatted("%.2f") + "%" + "\t" + count)
+
+      result = result.++(res)
+    }
+    result.repartition(1).saveAsTextFile(out)
+
+  }
+
   def main(args: Array[String]): Unit = {
        /*age()
        gender
@@ -616,8 +647,8 @@ object App {
        // certificate()
        // skills()
        // companySize()
-       finalScore()
-
+       // finalScore()
+    countWorkExprsDis()
   }
 
 }

@@ -1,6 +1,7 @@
 package com.higgs.usercase.dept_norm
 
 import com.higgs.util.Utils
+import org.apache.spark.rdd.RDD
 import org.apache.spark.{SparkConf, SparkContext}
 // import com.higgs.web.HttpServing
 
@@ -26,6 +27,28 @@ object App {
     sc.textFile(filePath).map(_.split("\u0001")).filter(_.length == 2)
   }
 
+  def filter(name:String, item: String) = {
+    name.equals(item) || name.equals(item.replace("部", ""))
+  }
+
+  def getFreqOfDeptDict(): Unit = {
+    val rdd = init().map(x=> (x(0),x(1))).cache()
+    val out = "/Users/devops/workspace/gitlab/dept_norm/dept_dict_combine"
+    Utils.deleteDir(out)
+    val dict = sc.textFile("/Users/devops/workspace/gitlab/dept_norm/dept_dict.txt")
+      .map(_.split("\t")(1)).collect()
+    println("dict size:" + dict.size)
+    var result : RDD[String] = sc.emptyRDD
+    for (i <- 0 to dict.length) {
+      println("index :" + i)
+      val r1 = rdd.filter(x => filter(x._1, dict.apply(i)))
+      .map(x=> x._2 + "\t" + x._1)
+      println("r1 size:" + r1.count())
+      result.++(r1)
+    }
+    result.repartition(1).saveAsTextFile(out)
+  }
+
   def filterEndWithDept(): Unit = {
     // xxx 事业部， xxx 业务部
     val rdd = init()
@@ -37,13 +60,13 @@ object App {
       val frq = x(1).toInt
       if (frq >= 50 && frq < 100 && (name.endsWith("部") || name.endsWith("部门")
         )) {
-         name.replace("部门", "部").toLowerCase
+        (name.replace("部门", "部").toLowerCase, frq)
       } else {
-        ""
+        ("",0)
       }
-    }.filter(!"".equals(_)).distinct()
+    }.filter(x => !"".equals(x._1)).distinct()
       .map { x =>
-        200 + "\t" + x + "\t" + x.replace("部", "")
+        x._2 + "\t" + x._1 + "\t" + x._1.replace("部", "")
       }.saveAsTextFile(out)
   }
 
@@ -56,13 +79,13 @@ object App {
     val d3 = dir + "/dept_name_filter_endwith_500_1000.txt"
     val d4 = dir + "/dept_name_filter_endwith_250_500.txt"
     val d5 = dir + "/dept_name_filter_endwith_150_250.txt"
-    val r1 = sc.textFile(d1).map(_.split("\t")(1).toLowerCase)
-    var r2 = sc.textFile(d2).map(_.split("\t")(1).toLowerCase)
-    var r3 = sc.textFile(d3).map(_.split("\t")(1).toLowerCase)
-    var r4 = sc.textFile(d4).map(_.split("\t")(1).toLowerCase)
-    var r5 = sc.textFile(d5).map(_.split("\t")(1).toLowerCase)
+    val r1 = sc.textFile(d1).map(_.split("\t")).map(x=> (x(0),x(1)))
+    var r2 = sc.textFile(d2).map(_.split("\t")).map(x=> (x(0),x(1)))
+    var r3 = sc.textFile(d3).map(_.split("\t")).map(x=> (x(0),x(1)))
+    var r4 = sc.textFile(d4).map(_.split("\t")).map(x=> (x(0),x(1)))
+    var r5 = sc.textFile(d5).map(_.split("\t")).map(x=> (x(0),x(1)))
     r1.++(r2).++(r3).++(r4).++(r5).distinct().map{ x =>
-      200 + "\t" + x + "\t" + x.replace("部", "")
+      x._1 + "\t" + x._2 + "\t" + x._2.replace("部", "")
     }.repartition(1)
       .saveAsTextFile(out)
   }
@@ -81,7 +104,8 @@ object App {
   def main(args: Array[String]): Unit = {
     // filterEndWithDept()
     // combineDict()
-    checkFaileFrq()
+    // checkFaileFrq()
+    getFreqOfDeptDict()
   }
 
 }
