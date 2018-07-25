@@ -39,12 +39,12 @@ object App {
       .map(_.split("\t")(1)).collect()
     println("dict size:" + dict.size)
     var result : RDD[String] = sc.emptyRDD
-    for (i <- 0 to dict.length) {
+    for (i <- 0 until  dict.length) {
       println("index :" + i)
       val r1 = rdd.filter(x => filter(x._1, dict.apply(i)))
       .map(x=> x._2 + "\t" + x._1)
       println("r1 size:" + r1.count())
-      result.++(r1)
+      result = result.++(r1)
     }
     result.repartition(1).saveAsTextFile(out)
   }
@@ -58,7 +58,7 @@ object App {
     val data = rdd.map { x =>
       val name = x(0)
       val frq = x(1).toInt
-      if (frq >= 50 && frq < 100 && (name.endsWith("部") || name.endsWith("部门")
+      if (frq >= 100 && frq < 150 && (name.endsWith("部") || name.endsWith("部门")
         )) {
         (name.replace("部门", "部").toLowerCase, frq)
       } else {
@@ -66,7 +66,7 @@ object App {
       }
     }.filter(x => !"".equals(x._1)).distinct()
       .map { x =>
-        x._2 + "\t" + x._1 + "\t" + x._1.replace("部", "")
+        x._1 + "\t" + x._2 + "\t" + x._1.replace("部", "")
       }.saveAsTextFile(out)
   }
 
@@ -79,13 +79,18 @@ object App {
     val d3 = dir + "/dept_name_filter_endwith_500_1000.txt"
     val d4 = dir + "/dept_name_filter_endwith_250_500.txt"
     val d5 = dir + "/dept_name_filter_endwith_150_250.txt"
-    val r1 = sc.textFile(d1).map(_.split("\t")).map(x=> (x(0),x(1)))
-    var r2 = sc.textFile(d2).map(_.split("\t")).map(x=> (x(0),x(1)))
-    var r3 = sc.textFile(d3).map(_.split("\t")).map(x=> (x(0),x(1)))
-    var r4 = sc.textFile(d4).map(_.split("\t")).map(x=> (x(0),x(1)))
-    var r5 = sc.textFile(d5).map(_.split("\t")).map(x=> (x(0),x(1)))
-    r1.++(r2).++(r3).++(r4).++(r5).distinct().map{ x =>
-      x._1 + "\t" + x._2 + "\t" + x._2.replace("部", "")
+    val d6 = dir + "/dept_name_filter_endwith_100_150.txt"
+    val r1 = sc.textFile(d1).map(_.split("\t")).map(x=> (x(0),x(1).toInt))
+    var r2 = sc.textFile(d2).map(_.split("\t")).map(x=> (x(1),100))
+    var r3 = sc.textFile(d3).map(_.split("\t")).map(x=> (x(0),x(1).toInt))
+    var r4 = sc.textFile(d4).map(_.split("\t")).map(x=> (x(0),x(1).toInt))
+    var r5 = sc.textFile(d5).map(_.split("\t")).map(x=> (x(0),x(1).toInt))
+    var r6 = sc.textFile(d6).map(_.split("\t")).map(x=> (x(0),x(1).toInt))
+    r1.++(r2).++(r3).++(r4).++(r5).++(r6).distinct()
+      .reduceByKey(_ + _)
+      .sortBy(_._2, ascending = false)
+      .map{ x =>
+      x._2 + "\t" + x._1+ "\t" + x._1.replace("部", "")
     }.repartition(1)
       .saveAsTextFile(out)
   }
@@ -103,9 +108,9 @@ object App {
 
   def main(args: Array[String]): Unit = {
     // filterEndWithDept()
-    // combineDict()
+    combineDict()
     // checkFaileFrq()
-    getFreqOfDeptDict()
+    // getFreqOfDeptDict()
   }
 
 }
