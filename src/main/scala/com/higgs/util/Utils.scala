@@ -113,8 +113,9 @@ object Utils {
   }
 
   def deleteDir(dir: String): Unit = {
-    new File(new io.File(dir)).deleteRecursively()
-
+    if (new io.File(dir).exists()) {
+      new File(new io.File(dir)).deleteRecursively()
+    }
   }
 
 

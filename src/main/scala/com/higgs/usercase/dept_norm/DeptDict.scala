@@ -63,8 +63,17 @@ object DeptDict {
       .saveAsTextFile(dept_out)
   }
 
+  def format(): Unit = {
+    var src = "/Users/devops/Documents/部门归一化/dept_name_resume.txt"
+    sc.textFile(src).map(_.split("\u0001"))
+      .map(x => x(0) + "," + x(1))
+      .saveAsTextFile("/Users/devops/Documents/部门归一化/dept_name_resume")
+
+  }
+
   def main(args: Array[String]): Unit = {
     // sortDict()
-    finalDeptClass()
+    // finalDeptClass()
+    format()
   }
 }
