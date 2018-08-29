@@ -15,11 +15,11 @@ public class MysqlUtil {
 
   private static final String DBNAME = "casem";//数据库名
 
-  private static final String DBURL ="jdbc:mysql://172.16.52.52:3306/" + DBNAME;//连接URL
+  private static final String DBURL ="jdbc:mysql://xxxx:3306/" + DBNAME;//连接URL
 
-  private static final String DBUSER ="casem";//数据库用户名
+  private static final String DBUSER ="xxx";//数据库用户名
 
-  private static final String DBPASSWORD = "Casem123@";//数据库密码
+  private static final String DBPASSWORD = "xxxx";//数据库密码
 
   private static Connection conn = null;
 
