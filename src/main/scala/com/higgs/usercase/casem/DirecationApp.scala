@@ -3,6 +3,7 @@ package com.higgs.usercase.casem
 import java.util.Properties
 
 import com.higgs.util.Utils
+import io.vertx.core.json.{JsonArray, JsonObject}
 import org.apache.spark.sql.SQLContext
 import org.apache.spark.{SparkConf, SparkContext}
 
@@ -28,13 +29,13 @@ object DirecationApp {
   val sqlContext = new SQLContext(sc)
 
   //数据库url地址
-  val url = "jdbc:mysql://172.16.52.102:3306/casem_api_go"
+  val url = "jdbc:mysql://172.16.52.52:3306/casem_api_go"
   //表名
   val table = "casem_case"
   //创建Properties 添加数据库用户名和密码
   val properties = new Properties()
-  properties.setProperty("user","casem_go")
-  properties.setProperty("password","cjyou2017")
+  properties.setProperty("user","casem")
+  properties.setProperty("password","Casem123@")
 
   def readMysql(): Unit = {
     val df = sqlContext.read
@@ -59,8 +60,44 @@ object DirecationApp {
     }.saveAsTextFile(out)
   }
 
+  def dumpJdTagData(out:String, pass:String) ={
+    Utils.deleteDir(out)
+    Utils.deleteDir(pass)
+    val df = sqlContext.read
+      .jdbc(url, table, properties)
+    println("schema:", df.schema)
+    val result = df
+      .filter("type = 11")
+      .filter("user_id != 27")
+      .filter("user_id != 29")
+      .filter("user_id != 30")
+      .filter("user_id != 31")
+      .filter("user_id != 32")
+
+    println("count:", result.count())
+    result.filter("tag_status = 2").map{ row =>
+      // id + tag_p
+      new JsonObject(row.getString(4)).put("id", row.getString(0)).encode()
+    }.saveAsTextFile(out)
+
+    result.filter("tag_status = 4").map{ row =>
+      // id + tag_p
+      new JsonObject(row.getString(4)).put("items", new JsonArray()).put("id", row.getString(0)).encode()
+    }.saveAsTextFile(pass)
+
+
+  }
+
   def main(args: Array[String]): Unit = {
-    dumpData()
+    // dumpData()
+    if (args.length < 2) {
+      println("Usage: java -jar xx.jar <out_dir> <out_pass_dir>")
+      var out = "/Users/devops/Documents/新的标注系统/tag_data/jd_keyword_tag/export_20181119"
+      var pass = "/Users/devops/Documents/新的标注系统/tag_data/jd_keyword_tag/export_20181119_passed"
+      println("default <out_dir>:" + out + ",<out_pass_dir>:" + pass)
+      System.exit(-1)
+    }
+    dumpJdTagData(args(0), args(1))
   }
 
 }

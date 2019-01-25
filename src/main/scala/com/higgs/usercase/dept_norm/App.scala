@@ -106,11 +106,20 @@ object App {
       .saveAsTextFile(out)
   }
 
+  def dept_count(): Unit = {
+    var file = "/Users/devops/workspace/hbase-demo/src/main/java/com/higgs/serving/dept/data/dept_dict_mapping_v2.txt"
+    var count = sc.textFile(file).map(_.split("\t")(1)).distinct()
+    count.saveAsTextFile("./count")
+    print(count.count())
+
+  }
+
   def main(args: Array[String]): Unit = {
     // filterEndWithDept()
-    combineDict()
+    // combineDict()
     // checkFaileFrq()
     // getFreqOfDeptDict()
+    dept_count()
   }
 
 }
