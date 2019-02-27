@@ -27,7 +27,7 @@ public final class NormalizeServiceGrpc {
   public static final String SERVICE_NAME = "com.inmind.idmg.text_sim.normalize.rpc.NormalizeService";
 
   // Static method descriptors that strictly reflect the proto.
-  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormRequest,
       com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormReply> METHOD_NORMALIZE =
       io.grpc.MethodDescriptor.create(
@@ -36,7 +36,7 @@ public final class NormalizeServiceGrpc {
               "com.inmind.idmg.text_sim.normalize.rpc.NormalizeService", "Normalize"),
           io.grpc.protobuf.ProtoUtils.marshaller(com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormReply.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormRequest,
       com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormReply> METHOD_BATCH_NORMALIZE =
       io.grpc.MethodDescriptor.create(
@@ -45,7 +45,7 @@ public final class NormalizeServiceGrpc {
               "com.inmind.idmg.text_sim.normalize.rpc.NormalizeService", "BatchNormalize"),
           io.grpc.protobuf.ProtoUtils.marshaller(com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.NormReply.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.IdentifyRequest,
       com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.IdentifyReply> METHOD_IDENTIFY =
       io.grpc.MethodDescriptor.create(
@@ -54,7 +54,7 @@ public final class NormalizeServiceGrpc {
               "com.inmind.idmg.text_sim.normalize.rpc.NormalizeService", "Identify"),
           io.grpc.protobuf.ProtoUtils.marshaller(com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.IdentifyRequest.getDefaultInstance()),
           io.grpc.protobuf.ProtoUtils.marshaller(com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.IdentifyReply.getDefaultInstance()));
-  @io.grpc.ExperimentalApi("https://github.com/com.higgs.grpc/com.higgs.grpc-java/issues/1901")
+  @io.grpc.ExperimentalApi("https://github.com/grpc/grpc-java/issues/1901")
   public static final io.grpc.MethodDescriptor<com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.IdentifyRequest,
       com.inmind.idmg.text_sim.normalize.rpc.NormalizeServiceOuterClass.IdentifyReply> METHOD_BATCH_IDENTIFY =
       io.grpc.MethodDescriptor.create(
