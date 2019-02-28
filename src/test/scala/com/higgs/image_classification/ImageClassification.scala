@@ -4,6 +4,7 @@ import com.databricks.sparkdl.DeepImageFeaturizer
 import org.apache.spark.ml.Pipeline
 import org.apache.spark.ml.classification.LogisticRegression
 import org.apache.spark.ml.evaluation.MulticlassClassificationEvaluator
+import org.apache.spark.ml.image.ImageSchema
 import org.apache.spark.sql.SparkSession
 
 /**
@@ -20,6 +21,11 @@ object ImageClassification {
   var session = SparkSession.builder().appName("ImageClass")
     .getOrCreate()
 
+  @deprecated("use `spark.read.format(\"image\").load(path)` and this `readImages` will be " +
+    "removed in 3.0.0.", "2.4.0")
+  def loadImageWithImageSchema(str: String) = {
+    ImageSchema.readImages(str)
+  }
 
   def loadImage(imageDir: String) = {
     session.read
@@ -27,10 +33,9 @@ object ImageClassification {
       .load(imageDir)
   }
 
+  def transferLearning(imageDir:String) = {
+    // 迁移学习（Transfer learning）
 
-  def main(args: Array[String]): Unit = {
-
-    val imageDir = args(0)
     val data = loadImage(imageDir).randomSplit(Array(0.6,0.4))
     val train_df = data.apply(0)
     val test_df = data.apply(1)
@@ -39,6 +44,11 @@ object ImageClassification {
     val featurizer = new DeepImageFeaturizer()
       .setInputCol("image")
       .setOutputCol("features")
+      // InceptionV3
+      // Xception
+      // ResNet50
+      // VGG16
+      // VGG19
       .setModelName("InceptionV3")
 
     //  Build our logistic regression transformation
@@ -65,6 +75,11 @@ object ImageClassification {
     val accuracy = evaluator
       .evaluate(tested_df.select("prediction", "label"))
     println(s"Test Accuracy:$accuracy")
+  }
 
+
+  def main(args: Array[String]): Unit = {
+    val imageDir = args(0)
+    // transferLearning(imageDir)
   }
 }
