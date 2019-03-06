@@ -194,7 +194,7 @@
                 </transformer>
                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
                   <manifestEntries>
-                    <Main-Class>com.higgs.usercase.casem.DirecationApp</Main-Class>
+                    <Main-Class>com.higgs.casem.DumpTagCasem</Main-Class>
                   </manifestEntries>
                 </transformer>
               </transformers>
@@ -292,8 +292,23 @@
           <groupId>io.grpc</groupId>
           <artifactId>grpc-all</artifactId>
         </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-all</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty</artifactId>
+        </exclusion>
       </exclusions>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/io.netty/netty-all -->
+    <dependency>
+      <groupId>io.netty</groupId>
+      <artifactId>netty-all</artifactId>
+      <version>4.1.17.Final</version>
+    </dependency>
+
     <!-- https://mvnrepository.com/artifact/org.apache.spark/spark-core_2.10 -->
     <dependency>
       <groupId>org.apache.spark</groupId>
@@ -307,6 +322,18 @@
         <exclusion>
           <groupId>org.objenesis</groupId>
           <artifactId>objenesis</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.grpc</groupId>
+          <artifactId>grpc-all</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty-all</artifactId>
+        </exclusion>
+        <exclusion>
+          <groupId>io.netty</groupId>
+          <artifactId>netty</artifactId>
         </exclusion>
       </exclusions>
     </dependency>
@@ -329,62 +356,6 @@
       <groupId>org.xerial.snappy</groupId>
       <artifactId>snappy-java</artifactId>
       <version>1.0.5</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.grpc/grpc-all -->
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-core</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-auth</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-stub</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-okhttp</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-context</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-protobuf</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <!-- https://mvnrepository.com/artifact/io.grpc/grpc-netty -->
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-netty</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-protobuf-lite</artifactId>
-      <version>1.10.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.grpc</groupId>
-      <artifactId>grpc-protobuf-nano</artifactId>
-      <version>1.10.0</version>
     </dependency>
 
     <!-- https://mvnrepository.com/artifact/jexcelapi/jxl -->
@@ -443,13 +414,7 @@
       <version>18.0</version>
     </dependency>
 
-    <!-- https://mvnrepository.com/artifact/io.netty/netty-codec-http2 -->
-    <dependency>
-      <groupId>io.netty</groupId>
-      <artifactId>netty-all</artifactId>
-      <version>4.1.11.Final</version>
 
-    </dependency>
     <!-- https://mvnrepository.com/artifact/io.vertx/vertx-core -->
     <dependency>
       <groupId>io.vertx</groupId>
@@ -492,18 +457,6 @@
       <groupId>org.apache.kafka</groupId>
       <artifactId>kafka_2.12</artifactId>
       <version>1.0.0</version>
-    </dependency>
-
-    <dependency>
-      <groupId>io.dgraph</groupId>
-      <artifactId>dgraph4j</artifactId>
-      <version>1.2.0</version>
-      <exclusions>
-        <exclusion>
-          <groupId>io.grpc</groupId>
-          <artifactId>grpc-netty</artifactId>
-        </exclusion>
-      </exclusions>
     </dependency>
 
     <dependency>

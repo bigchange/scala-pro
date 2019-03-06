@@ -1,5 +1,9 @@
 package com.higgs.casem
 
+import java.util.Properties
+
+import com.higgs.util.Utils
+import io.vertx.core.json.{JsonArray, JsonObject}
 import org.apache.spark.{SparkConf, SparkContext}
 import org.apache.spark.sql.{SQLContext, SparkSession}
 
@@ -14,20 +18,55 @@ import org.apache.spark.sql.{SQLContext, SparkSession}
   */
 object DumpTagCasem {
 
-  val conf = new SparkConf().setAppName("boar")
-    // .set("spark.driver.userClassPathFirst", "true")
-    // .set("spark.executor.userClassPathFirst", "true")
-    .set("spark.jars.packages", "io.netty:netty-common:4.1.8.Final")
-    .set("spark.jars.exclude", "io.netty:netty-common")
-    .setMaster("local")
+  val spark = SparkSession.builder()
+    .master("local")
+    .getOrCreate()
+  var sqlContext = spark.sqlContext
 
-  val sc = new SparkContext(conf)
-  val spark = SparkSession.builder().getOrCreate()
-  var sql = spark.sqlContext
+  //数据库url地址
+  // val url = jdbc:mysql://xxx:3306/casem_api_go
+  //表名
+  // val table = "casem_case"
+  //创建Properties 添加数据库用户名和密码
+  val properties = new Properties()
 
+  def setProperty(key:String, value:String): Unit = {
+    properties.setProperty(key,value)
+    properties.setProperty(key,value)
+  }
 
+  def dumpTagData(url: String,ftype:String,tagStatus:String,out:String) ={
+    val dir = out + "/dump-out"
+    Utils.deleteDir(dir)
+    val df = sqlContext.read
+      .jdbc(url, "casem_case", properties)
+    println("schema:", df.schema)
+    val filterExp: String = "tag_status = " + tagStatus
+    val filterExp2: String = "type = " + ftype
+    val result = df
+       .filter(filterExp)
+       .filter(filterExp2)
+    // .filter("updated_at >= 1546790400")
+
+    println("count:", result.count())
+    result.rdd.map { row =>
+      // text
+      var text = new JsonObject(row.getString(1))
+      // id + tag_p
+      new JsonObject(row.getString(4)).put("id", row.getString(0))
+        .put("origin_text", text.getString("content"))
+        .put("user_id", row.getInt(9))
+        .put("category", row.getString(16))
+        .encode()
+    }.saveAsTextFile(dir)
+
+  }
 
   def main(args: Array[String]): Unit = {
 
+    val (url, user, ps, ftype, ts, out) = (args(0), args(1), args(2), args(3),args(4), args(5))
+    setProperty("user", user)
+    setProperty("password", ps)
+    dumpTagData(url, ftype, ts, out)
   }
 }
