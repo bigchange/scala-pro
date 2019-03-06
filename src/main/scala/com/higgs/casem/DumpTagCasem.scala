@@ -20,6 +20,7 @@ object DumpTagCasem {
 
   val spark = SparkSession.builder()
     .master("local")
+    // .config("driver-class-path", "path/mysql-connector-java-8.0.15.jar")
     .getOrCreate()
   var sqlContext = spark.sqlContext
 
