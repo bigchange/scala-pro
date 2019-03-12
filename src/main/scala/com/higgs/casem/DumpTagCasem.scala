@@ -2,6 +2,7 @@ package com.higgs.casem
 
 import java.util.Properties
 
+import com.higgs.kb_system.DumpKBData.spark
 import com.higgs.util.Utils
 import io.vertx.core.json.{JsonArray, JsonObject}
 import org.apache.spark.{SparkConf, SparkContext}
@@ -23,6 +24,8 @@ object DumpTagCasem {
     // .config("driver-class-path", "path/mysql-connector-java-8.0.15.jar")
     .getOrCreate()
   var sqlContext = spark.sqlContext
+
+  spark.sparkContext.setLogLevel("WARN")
 
   //数据库url地址
   // val url = jdbc:mysql://xxx:3306/casem_api_go
