@@ -44,6 +44,7 @@ object DumpTagCasem {
     Utils.deleteDir(dir)
     val df = sqlContext.read
       .jdbc(url, "casem_case", properties)
+        .cache()
     println("schema:", df.schema)
     val filterExp: String = "tag_status = " + tagStatus
     val filterExp2: String = "type = " + ftype
@@ -58,7 +59,7 @@ object DumpTagCasem {
       var text = new JsonObject(row.getString(1))
       // id + tag_p
       new JsonObject(row.getString(4)).put("id", row.getString(0))
-        .put("origin_text", text.getString("content"))
+        .put("origin_text", text.getString("content", text.encode()))
         .put("user_id", row.getInt(9))
         .put("category", row.getString(16))
         .encode()
