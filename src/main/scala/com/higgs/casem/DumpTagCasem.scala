@@ -6,7 +6,7 @@ import com.higgs.kb_system.DumpKBData.spark
 import com.higgs.util.Utils
 import io.vertx.core.json.{JsonArray, JsonObject}
 import org.apache.spark.{SparkConf, SparkContext}
-import org.apache.spark.sql.{SQLContext, SparkSession}
+import org.apache.spark.sql.{Row, SQLContext, SparkSession}
 
 /**
   * User: JerryYou
@@ -39,6 +39,25 @@ object DumpTagCasem {
     properties.setProperty(key,value)
   }
 
+  def parseRow(row: Row) = {
+    // text
+    var textString = row.getString(1)
+    var text = new JsonObject(textString)
+    // tag_p
+    var tagp = row.getString(4)
+    var rep = new JsonObject()
+      .put("id", row.getString(0))
+      .put("user_id", row.getInt(9))
+      .put("category", row.getString(16))
+
+    if (text.containsKey("content")) {
+      rep.put("origin_text", text.getString("content"))
+    } else {
+      rep.put("origin_text", text)
+    }
+    rep.encode()
+  }
+
   def dumpTagData(url: String,ftype:String,tagStatus:String,out:String) ={
     val dir = out + "/dump-out"
     Utils.deleteDir(dir)
@@ -51,19 +70,15 @@ object DumpTagCasem {
     val result = df
        .filter(filterExp)
        .filter(filterExp2)
+       .cache()
     // .filter("updated_at >= 1546790400")
 
+    val row = result.rdd.first()
+    val res = parseRow(row)
+    println("res => " + res)
+    System.exit(-1)
     println("count:", result.count())
-    result.rdd.map { row =>
-      // text
-      var text = new JsonObject(row.getString(1))
-      // id + tag_p
-      new JsonObject(row.getString(4)).put("id", row.getString(0))
-        .put("origin_text", text.getString("content",text.toString))
-        .put("user_id", row.getInt(9))
-        .put("category", row.getString(16))
-        .encode()
-    }.saveAsTextFile(dir)
+    result.rdd.map { row => parseRow(row)}.saveAsTextFile(dir)
 
   }
 
