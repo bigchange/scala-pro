@@ -45,10 +45,15 @@ object DumpTagCasem {
     var text = new JsonObject(textString)
     // tag_p
     var tagp = row.getString(4)
+    var ftype = row.getInt(10)
     var rep = new JsonObject()
       .put("id", row.getString(0))
       .put("user_id", row.getInt(9))
       .put("category", row.getString(16))
+
+    if (ftype == 11) {
+      rep.put("items", new JsonObject(tagp).getJsonArray("items"))
+    }
 
     if (text.containsKey("content")) {
       rep.put("origin_text", text.getString("content"))
@@ -71,12 +76,11 @@ object DumpTagCasem {
        .filter(filterExp)
        .filter(filterExp2)
        .cache()
-    // .filter("updated_at >= 1546790400")
+       // .filter("updated_at >= 1546790400")
 
     val row = result.rdd.first()
     val res = parseRow(row)
     println("res => " + res)
-    System.exit(-1)
     println("count:", result.count())
     result.rdd.map { row => parseRow(row)}.saveAsTextFile(dir)
 
