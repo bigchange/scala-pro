@@ -9,27 +9,6 @@
   </properties>
 
   <repositories>
-
-    <repository>
-      <id>jihui_one </id>
-      <name> jihui_one </name>
-      <layout> default</layout>
-      <url> http://nexus.jihui.in/content/repositories/releases/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
-
-
-    <repository>
-      <id> jihui_second</id>
-      <name> jihui_second </name>
-      <layout> default</layout>
-      <url> http://nexus.jihui.in/content/groups/public/</url>
-      <snapshots>
-        <enabled>false</enabled>
-      </snapshots>
-    </repository>
     <repository>
       <id>cloudera</id>
       <name>cdh</name>
